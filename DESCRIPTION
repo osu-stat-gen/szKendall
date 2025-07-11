@@ -10,7 +10,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp
-Imports: 
+Imports:  
     Rcpp, 
     foreach,
     doParallel

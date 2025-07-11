@@ -13,7 +13,7 @@ kendall(Y1, Y2)
 \item{Y2}{The observed contact counts for single cell 2}
 }
 \value{
-An NxN square matrix of the Kendall's tau values (0, 1, or 0.5), where N is the number of loci in the single cells (i.e., the length of Y1 and Y2)
+An NxN square matrix of the Kendall's tau values (0, 1, or 0.5), where N is the number of locus pairs in the single cells (i.e., the length of Y1 and Y2)
 }
 \description{
 kendall

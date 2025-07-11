@@ -3,7 +3,7 @@
 #' Kendall's tau matrix for loci pair (i,j) in single cell 1 and loci pair (u,v) in single cell 2 for all (i,j) and (u,v)
 #' @param Y1 The observed contact counts for single cell 1
 #' @param Y2 The observed contact counts for single cell 2
-#' @return An NxN square matrix of the Kendall's tau values (0, 1, or 0.5), where N is the number of loci in the single cells (i.e., the length of Y1 and Y2)
+#' @return An NxN square matrix of the Kendall's tau values (0, 1, or 0.5), where N is the number of locus pairs in the single cells (i.e., the length of Y1 and Y2)
 #' @export
 kendall <- function(Y1, Y2){
   if(length(Y1) != length(Y2)){
