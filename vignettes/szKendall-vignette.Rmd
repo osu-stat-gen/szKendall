@@ -1,0 +1,21 @@
+---
+title: "szKendall-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{szKendall-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+#### Vignettes are long-form documents showing why and how to use your package, typically with narrative and code.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(szKendall)
+```
