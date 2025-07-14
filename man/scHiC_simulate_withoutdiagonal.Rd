@@ -3,7 +3,7 @@
 \name{scHiC_simulate_withoutdiagonal}
 \alias{scHiC_simulate_withoutdiagonal}
 \title{Simulate single-cell Hi-C data
-Given the 3D coordinates of N loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions}
+Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions}
 \usage{
 scHiC_simulate_withoutdiagonal(
   data,
