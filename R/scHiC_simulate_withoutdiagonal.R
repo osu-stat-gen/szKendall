@@ -1,6 +1,6 @@
 
 #' Simulate single-cell Hi-C data
-#' Given the 3D coordinates of N loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions
+#' Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions
 #' @importFrom stats runif rpois rbinom quantile
 #' @param data An nx3 matrix representing the 3D coordinates of n loci.
 #' @param alpha_0 Parameter that controls the sequencing depth of the simulated single-cell Hi-C data.

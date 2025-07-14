@@ -1,13 +1,11 @@
 ---
-title: "szKendall-vignette"
+title: "Getting Started with szKendall"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{szKendall-vignette}
+  %\VignetteIndexEntry{Getting Started with szKendall}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-#### Vignettes are long-form documents showing why and how to use your package, typically with narrative and code.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -16,6 +14,109 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+## Overview
+
+The goal of szKendall is to measure the dissimilarity between two single cells based on their observed Hi-C data, accounting for the discrepancies in structural zero positions. This rank-based dissimilarity measure can be powerful for single-cell Hi-C clustering and other downstream analyses. The calculation is implemented using Rcpp for speed and supports parallel computation via `foreach` and `doParallel` packages.
+
+## Installation
+
+You can install the szKendall package from GitHub:
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+# If not already installed:
+# install.packages("devtools")
+
+# library(devtools)
+# devtools::install_github("https://github.com/osu-stat-gen/szKendall")
 library(szKendall)
 ```
+
+You may also need to load parallel backends:
+
+```{r setup, warning=FALSE, message=FALSE}
+library(doParallel)
+library(foreach)
+registerDoParallel(cores = 4)  
+# Run foreach::registerDoSEQ() to override any parallel backend and force sequential calculation 
+# foreach::registerDoSEQ()
+```
+
+
+## Example: Calculating szKendall Dissimilarity
+
+This is an example which shows you how to calculate the szKendall dissimilarity between cells. The simulated data contain 150 single cells (i.e., 150 columns). Therefore, the resulting szKendall matrix (which is symmetric with the main-diagonal all being 0) is of dimension 150 by 150. The $(i, j)^{th}$ element in this matrix indicates the szKendall dissimilarity between cell $i$ and cell $j$. 
+
+```{r example}
+# Simulated data (or real, observed count data)
+data("sim1.data")
+# Underlying expected count
+# (where only structural zeros are exactly zeros; all other positions have positive values)
+data("true1.data") 
+
+# Calculate szKendall dissimilarity, along with its two variants  
+szK.sim1 <- szKendall.diss(sim1.data, true1.data)
+szK1.sim1 <- szKendall1.diss(sim1.data, true1.data)
+szK2.sim1 <- szKendall2.diss(sim1.data, true1.data)
+
+print(dim(szK.sim1))
+print(dim(szK1.sim1))
+print(dim(szK2.sim1))
+```
+
+
+
+## Simulate single-cell Hi-C Data 
+
+In this package, we also provide a function that simulates the single-cell Hi-C data for `n_single` cells of the same cell (sub)type, given the 3D coordinates of `n` loci. The underlying expected contact count data are also returned, which indicate all the structural zero positions (i.e., those positions with expected count being 0). 
+
+```{r} 
+# Simulate the data for 50 cells
+n_single <- 50
+# Load the 3D coordinates of n=61 loci
+data("cooord3D_T1")
+
+# Save the resulting data as ST1 (subtype 1), which contains the simulated and expected contact counts 
+# (Both matrices are of dimension 1830 by 50, where 1830 = 61*60/2 is the number of locus pairs, 
+#  and 50 is the number of cells (n_single). )
+set.seed(1234)
+ST1 <- scHiC_simulate_withoutdiagonal(
+  data = coord3D_T1,
+  alpha_0 = 1.8,
+  alpha_1 = -1,
+  beta_l = 0.9,
+  beta_g = 0.9,
+  beta_m = 0.9,
+  gamma = 0.6,
+  tau1 = 0.7,
+  eta = 0.1,
+  tau2=0.6,
+  n_single=n_single
+)
+dim(ST1$singledat)
+dim(ST1$truecount)
+```
+
+
+### Explanation of Parameters
+
+* `data` is an `n` by 3 matrix representing the 3D coordinates of `n` loci.
+* `alpha_0` controls the sequencing depth of the simulated single-cell Hi-C data.
+* `alpha_1` reflects the biophysical law between the expected contact counts and the 3D Euclidean distances among the loci. Default value is -1.
+* `beta_l` mimics the effect of fragment length in generating single-cell Hi-C data. Default value is 0.9.
+* `beta_g` mimics the effect of GC content in generating single-cell Hi-C data. Default value is 0.9.
+* `beta_m` mimics the effect of mappability in generating single-cell Hi-C data. Default value is 0.9.
+* `gamma` defines the threshold for expected contact counts; locus pairs with expected counts below this percentile could become structural zero candidates.
+* `tau1` sets the probability that a locus pair with expected count below `gamma` percentile turning into a structural zero candidate.
+* `eta` decides the proportion of common structural zeros among the structural zero candidates.
+* `tau2` decides the proportion of cell-specific structural zeros among the remaining `1 - eta` proportion of the structural zero candidates.
+* `n_single` is the number of single cells (i.e., columns) to be generated.
+
+
+### Explanation of Output
+
+`scHiC_simulate_withoutdiagonal()` returns a list with 2 elements:
+
+* `singledat`: The simulated single-cell Hi-C contact counts. The dimension is `N` by `n_single`, where `N = n*(n-1)/2` is the number of unique locus pairs given `n` loci.
+* `truecount`: The expected ("true") single-cell Hi-C contact counts. Same dimension as `singledat`.
+
+

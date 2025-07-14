@@ -16,7 +16,7 @@ You can install the szKendall package from GitHub:
 
 ``` r
 library(devtools)
-devtools::install_github("https://github.com/sl-lin/szKendall")
+devtools::install_github("https://github.com/osu-stat-gen/szKendall")
 ```
 
 ## Example

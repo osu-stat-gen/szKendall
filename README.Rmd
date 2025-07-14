@@ -24,9 +24,9 @@ The goal of szKendall is to measure the dissimilarity between two single cells b
 
 You can install the szKendall package from GitHub:
 
-``` r
+```{r, warning=FALSE, message=FALSE, results='hide'}
 library(devtools)
-devtools::install_github("https://github.com/sl-lin/szKendall")
+devtools::install_github("https://github.com/osu-stat-gen/szKendall")
 ```
 
 ## Example
@@ -35,18 +35,14 @@ This is an example which shows you how to calculate the szKendall dissimilarity 
 
 ```{r example}
 
-# From GitHub
-# install.packages("devtools")
-library(devtools)
-install_github("https://github.com/sl-lin/szKendall")
-
 library(szKendall)
 
 # Example code
 data("sim1.data")
 data("true1.data")
 # Calculate szKendall dissimilarity 
-doParallel::registerDoParallel(cores = 2)  # Run registerDoSEQ() to override any default parallel backend and force sequential calculation 
+doParallel::registerDoParallel(cores = 2)  
+# Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
 # foreach::registerDoSEQ()
 szK.sim1 <- szKendall.diss(sim1.data, true1.data)
 szK1.sim1 <- szKendall1.diss(sim1.data, true1.data)
