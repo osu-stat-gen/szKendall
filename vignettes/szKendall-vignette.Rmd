@@ -84,7 +84,7 @@ scHiC_hm_dist(szK.sim1, title="szK")
 scHiC_tSNE_dist(szK.sim1, cell_type=cell.type, seed=1234, title="szK", alpha_value=1)
 
 # UMAP 2D projection
-scHiC_UMAP_dist(szK.sim1, cell_type=cell.type, seed=1234, main="Euclid", alpha_value=1)
+scHiC_UMAP_dist(szK.sim1, cell_type=cell.type, seed=1234, main="szK", alpha_value=1)
 ```
 
 Using a dissimilarity matrix (Euclidean, szKendall, or others), we can perform clustering and measure the clustering results using the four criterion values (ARI, WSS%, ASW, and MIS). Below is an example of performing K-means, PAM, & hierarchical clustering based on the Euclidean distance on the simulated data, and performing PAM & hierarchical clustering based on the szKendall dissimilarity. 
