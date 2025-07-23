@@ -1,26 +1,26 @@
 
 #' Simulate single-cell Hi-C data
-#' Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions
+#' Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for `n_single` cells, along with the true structural zero positions.
 #' @importFrom stats runif rpois rbinom quantile
-#' @param data An nx3 matrix representing the 3D coordinates of n loci.
+#' @param data An `n`x3 matrix representing the 3D coordinates of `n` loci.
 #' @param alpha_0 Parameter that controls the sequencing depth of the simulated single-cell Hi-C data.
 #' @param alpha_1 Parameter that reflects the biophysical law between the expected contact counts and the 3D Euclidean distances among the loci. Default value is -1.
 #' @param beta_l Parameter that mimics the effect of fragment length in generating single-cell Hi-C data. Default value is 0.9.
 #' @param beta_g Parameter that mimics the effect of GC content in generating single-cell Hi-C data. Default value is 0.9.
 #' @param beta_m Parameter that mimics the effect of mappability in generating single-cell Hi-C data. Default value is 0.9.
 #' @param gamma Parameter that defines the threshold for expected contact counts; locus pairs with expected counts below this percentile could become structural zero candidates.
-#' @param tau1 Parameter that sets the probability that a locus pair with expected count below gamma percentile turning into a structural zero candidate.
+#' @param tau1 Parameter that sets the probability that a locus pair with expected count below `gamma` percentile turning into a structural zero candidate.
 #' @param eta Parameter that decides the proportion of common structural zeros among the structural zero candidates.
-#' @param tau2 Parameter that decides the proportion of cell-specific structural zeros among the remaining (1 - eta) proportion of the structural zero candidates.
+#' @param tau2 Parameter that decides the proportion of cell-specific structural zeros among the remaining `1 - eta` proportion of the structural zero candidates.
 #' @param n_single The number of single cells to be generated.
 #' @return A list with 2 elements:
 #' \describe{
-#'   \item{singledat}{The simulated single-cell Hi-C contact counts. The dimension is N x n_single, where N = n*(n-1)/2 is the number of unique locus pairs given n loci. }
+#'   \item{singledat}{The simulated single-cell Hi-C contact counts. The dimension is `N`x`n_single`, where `N = n*(n-1)/2` is the number of unique locus pairs given `n` loci. }
 #'   \item{truecount}{The expected ("true") single-cell Hi-C contact counts. Same dimension as singledat. }
 #' }
 #' @examples
 #' n_single <- 50
-#' data("cooord3D_T1")
+#' data("coord3D_T1")
 #' set.seed(1234)
 #' ST1 <- scHiC_simulate_withoutdiagonal(
 #'   data = coord3D_T1,
@@ -61,7 +61,7 @@ scHiC_simulate_withoutdiagonal <- function(data, alpha_0, alpha_1=-1, beta_l=0.9
   }
 
   seqdepth <- sum(lambda[upper.tri(lambda)])
-  thresh <- quantile(lambda[upper.tri(lambda)], gamma)    # here should be "gamma", the original code was "eta"
+  thresh <- quantile(lambda[upper.tri(lambda)], gamma)
   posi0 <- which(lambda < thresh & upper.tri(lambda), TRUE)
   true0 <- posi0[sample(nrow(posi0), size = tau1 * nrow(posi0), replace = FALSE), ]
 

@@ -3,7 +3,7 @@
 \name{scHiC_simulate_withoutdiagonal}
 \alias{scHiC_simulate_withoutdiagonal}
 \title{Simulate single-cell Hi-C data
-Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions}
+Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for \code{n_single} cells, along with the true structural zero positions.}
 \usage{
 scHiC_simulate_withoutdiagonal(
   data,
@@ -20,7 +20,7 @@ scHiC_simulate_withoutdiagonal(
 )
 }
 \arguments{
-\item{data}{An nx3 matrix representing the 3D coordinates of n loci.}
+\item{data}{An \code{n}x3 matrix representing the 3D coordinates of \code{n} loci.}
 
 \item{alpha_0}{Parameter that controls the sequencing depth of the simulated single-cell Hi-C data.}
 
@@ -34,28 +34,28 @@ scHiC_simulate_withoutdiagonal(
 
 \item{gamma}{Parameter that defines the threshold for expected contact counts; locus pairs with expected counts below this percentile could become structural zero candidates.}
 
-\item{tau1}{Parameter that sets the probability that a locus pair with expected count below gamma percentile turning into a structural zero candidate.}
+\item{tau1}{Parameter that sets the probability that a locus pair with expected count below \code{gamma} percentile turning into a structural zero candidate.}
 
 \item{eta}{Parameter that decides the proportion of common structural zeros among the structural zero candidates.}
 
-\item{tau2}{Parameter that decides the proportion of cell-specific structural zeros among the remaining (1 - eta) proportion of the structural zero candidates.}
+\item{tau2}{Parameter that decides the proportion of cell-specific structural zeros among the remaining \code{1 - eta} proportion of the structural zero candidates.}
 
 \item{n_single}{The number of single cells to be generated.}
 }
 \value{
 A list with 2 elements:
 \describe{
-\item{singledat}{The simulated single-cell Hi-C contact counts. The dimension is N x n_single, where N = n*(n-1)/2 is the number of unique locus pairs given n loci. }
+\item{singledat}{The simulated single-cell Hi-C contact counts. The dimension is \code{N}x\code{n_single}, where \code{N = n*(n-1)/2} is the number of unique locus pairs given \code{n} loci. }
 \item{truecount}{The expected ("true") single-cell Hi-C contact counts. Same dimension as singledat. }
 }
 }
 \description{
 Simulate single-cell Hi-C data
-Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for n_single cells, along with the true structural zero positions
+Given the 3D coordinates of n loci, this function simulates the single-cell Hi-C data for \code{n_single} cells, along with the true structural zero positions.
 }
 \examples{
 n_single <- 50
-data("cooord3D_T1")
+data("coord3D_T1")
 set.seed(1234)
 ST1 <- scHiC_simulate_withoutdiagonal(
   data = coord3D_T1,

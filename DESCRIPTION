@@ -11,6 +11,12 @@ RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp
 Imports:  
+    stats, 
+    pcaPP, scales, 
+    Rtsne, umap, 
+    plsgenomics, 
+    ggplot2, 
+    cluster, factoextra, 
     Rcpp, 
     foreach,
     doParallel
