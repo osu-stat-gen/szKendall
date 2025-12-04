@@ -4,6 +4,7 @@
 # szKendall
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of szKendall is to measure the dissimilarity between two single
@@ -23,7 +24,7 @@ You can install the szKendall package from GitHub:
 
 ``` r
 library(devtools)
-devtools::install_github("https://github.com/osu-stat-gen/szKendall")
+devtools::install_github("https://github.com/swl0923/szKendall_trial")
 ```
 
 The installation would take a few minutes on a standard desktop
@@ -40,7 +41,6 @@ szKendall dissimilarity in this example should be less than 2 minutes,
 and half (or even less) with parallel computing.
 
 ``` r
-
 library(szKendall)
 
 # Example code
@@ -50,14 +50,11 @@ data("true1.data")
 doParallel::registerDoParallel(cores = 4)  
 # Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
 # foreach::registerDoSEQ()
-szK.sim1 <- szKendall.diss(sim1.data, true1.data)
-szK1.sim1 <- szKendall1.diss(sim1.data, true1.data)
-szK2.sim1 <- szKendall2.diss(sim1.data, true1.data)
+szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
+szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
 
 print(dim(szK.sim1))
 #> [1] 150 150
 print(dim(szK1.sim1))
-#> [1] 150 150
-print(dim(szK2.sim1))
 #> [1] 150 150
 ```
