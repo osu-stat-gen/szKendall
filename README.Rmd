@@ -54,13 +54,11 @@ data("true1.data")
 doParallel::registerDoParallel(cores = 4)  
 # Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
 # foreach::registerDoSEQ()
-szK.sim1 <- szKendall.diss(sim1.data, true1.data)
-szK1.sim1 <- szKendall1.diss(sim1.data, true1.data)
-szK2.sim1 <- szKendall2.diss(sim1.data, true1.data)
+szK.sim1 <- szKendall(sim1.data, true1.data, dist.method="szKendall")
+szK1.sim1 <- szKendall1.diss(sim1.data, true1.data, dist.method="szKendall1")
 
 print(dim(szK.sim1))
 print(dim(szK1.sim1))
-print(dim(szK2.sim1))
 ```
 
 
