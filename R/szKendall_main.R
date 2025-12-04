@@ -65,7 +65,7 @@ szKendall <- function(sim.data, true.data,
   # Map method names to computation functions
   method_dispatch <- list(
     szKendall  = function(sim, truth) szKendall.diss(sim, truth),
-    szKendall1 = function(sim, truth) szKendall.diss2(sim, truth)
+    szKendall1 = function(sim, truth) szKendall2.diss(sim, truth)
   )
 
   # Validate selected method
