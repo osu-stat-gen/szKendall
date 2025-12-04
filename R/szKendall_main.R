@@ -29,7 +29,7 @@ utils::globalVariables(c(
 #' Internally, this function first converts the given data structures into consistent \eqn{\#LP \times \#cells} matrix form via
 #' \code{bind_to_matrix()}, and then dispatches to the corresponding szKendall dissimilarity function.
 #' 
-#' #' When \code{dist.method = "szKendall"}, pairwise contributions are weighted
+#' When \code{dist.method = "szKendall"}, pairwise contributions are weighted
 #' according to the genomic distance difference using
 #' \deqn{
 #'   W^{K}_{\,|\!|j-i|\!|-|\!|v-u|\!|} =
