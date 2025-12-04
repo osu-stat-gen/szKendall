@@ -10,10 +10,10 @@ utils::globalVariables(c(
 #' and \code{true.data}, and computes the pairwise dissimilarity using
 #' the selected szKendall method.
 #' 
-#' 
 #' @useDynLib szKendall, .registration = TRUE
 #' @importFrom foreach foreach %dopar% registerDoSEQ
 #' @importFrom Rcpp sourceCpp 
+#' 
 #' @param sim.data Input data corresponding to simulated contact maps.
 #'   It can be a list of \eqn{\#LP \times \#LP} matrices (one per cell),
 #'   a 3D array of dimension \eqn{\#LP \times \#LP \times \#cells},

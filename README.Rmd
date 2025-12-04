@@ -33,7 +33,7 @@ You can install the szKendall package from GitHub:
 
 ```{r, warning=FALSE, message=FALSE, results='hide'}
 library(devtools)
-devtools::install_github("https://github.com/osu-stat-gen/szKendall")
+devtools::install_github("https://github.com/swl0923/szKendall_trial")
 ```
 
 The installation would take a few minutes on a standard desktop computer. 
@@ -44,7 +44,6 @@ The installation would take a few minutes on a standard desktop computer.
 This is an example which shows you how to calculate the szKendall dissimilarity between cells. The simulated data contain 150 single cells (i.e., 150 columns). Therefore, the resulting szKendall matrix (which is symmetric with the main-diagonal all being 0) is of dimension 150-by-150. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
 
 ```{r example}
-
 library(szKendall)
 
 # Example code
@@ -54,8 +53,8 @@ data("true1.data")
 doParallel::registerDoParallel(cores = 4)  
 # Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
 # foreach::registerDoSEQ()
-szK.sim1 <- szKendall(sim1.data, true1.data, dist.method="szKendall")
-szK1.sim1 <- szKendall1.diss(sim1.data, true1.data, dist.method="szKendall1")
+szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
+szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
 
 print(dim(szK.sim1))
 print(dim(szK1.sim1))

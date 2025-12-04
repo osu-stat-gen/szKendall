@@ -26,7 +26,7 @@ szKendall.diss <- function(sim.data, true.data){
     doParallel::registerDoParallel(cores = numCores)
     on.exit(doParallel::stopImplicitCluster())  # Clean up
   }
-  # TODO conversion();
+  
   n.cells <- ncol(sim.data)
   n1 <- ceiling(sqrt(2*nrow(sim.data)))
   weight_vec3 <- cal_weight_vec3(n=n1)
