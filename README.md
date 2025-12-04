@@ -52,6 +52,7 @@ doParallel::registerDoParallel(cores = 4)
 # foreach::registerDoSEQ()
 szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
 szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
+doParallel::stopImplicitCluster()
 
 print(dim(szK.sim1))
 #> [1] 150 150

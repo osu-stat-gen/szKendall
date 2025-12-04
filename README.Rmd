@@ -31,7 +31,7 @@ The goal of szKendall is to measure the dissimilarity between two single cells b
 
 You can install the szKendall package from GitHub:
 
-```{r, warning=FALSE, message=FALSE, results='hide'}
+```{r, eval = FALSE}
 library(devtools)
 devtools::install_github("https://github.com/swl0923/szKendall_trial")
 ```
@@ -55,6 +55,7 @@ doParallel::registerDoParallel(cores = 4)
 # foreach::registerDoSEQ()
 szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
 szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
+doParallel::stopImplicitCluster()
 
 print(dim(szK.sim1))
 print(dim(szK1.sim1))
