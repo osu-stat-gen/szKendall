@@ -59,4 +59,11 @@ res <- szKendall(PFC_subset,dist.method="szKendall")
 
 in that order.
 
+``` r
+par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
+scHiC_hm_dist(res[[1]],title="szKendall")
+scHiC_hm_dist(res[[2]],title="Euclidean")
+scHiC_hm_dist(res[[3]],title="Kendall")
+```
+
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
