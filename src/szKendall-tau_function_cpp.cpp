@@ -685,8 +685,8 @@ double szkendall1_cpp_SZpart(NumericVector Y1, NumericVector Y2, IntegerVector Y
     NumericMatrix K(len, len);
     
     int n1 = region1.length();
-    int n2 = region2.length();
-    int n3 = region3.length();
+    // int n2 = region2.length();
+    // int n3 = region3.length();
     int n4 = region4.length();
     int n23 = region23.length(); 
     
