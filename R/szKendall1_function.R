@@ -35,7 +35,7 @@ szKendall1.diss <- function(mat_count,kendall.dist,...){
                         i <- fail.index[para, 1]; j <- fail.index[para, 2]
                         szi <- which(mat_count[, i] == 0)
                         szj <- which(mat_count[, j] == 0)
-                        val <- szkendall1_cpp(mat_count[, i],
+                        val <- szkendall1_cpp_SZpart(mat_count[, i],
                                               mat_count[, j],
                                               szi, szj, weight_sz_vec1, type = "Nodiag")
                         c(i, j, val)

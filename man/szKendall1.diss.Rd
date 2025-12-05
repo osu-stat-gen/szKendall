@@ -17,5 +17,5 @@ This function computes the szKendall1 dissimilarity matrix given a  (locus-pair 
 }
 \examples{
 foreach::registerDoSEQ()
-szKendall.diss(mat_data)
+szKendall.diss(mat_count)
 }

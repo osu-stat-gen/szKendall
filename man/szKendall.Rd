@@ -49,6 +49,7 @@ For \code{dist.method = "szKendall1"},
 
 \examples{
 foreach::registerDoSEQ()
+res <- szKendall(szKendall::PFC_subset,dist.method="szKendall")
 
 
 }
