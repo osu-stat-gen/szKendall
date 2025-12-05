@@ -50,7 +50,7 @@ library(szKendall)
 data("PFC_subset_matrix")
 
 foreach::registerDoSEQ()
-res <- szKendall(PFC_subset_matrix,dist.method="szKendall")
+res <- szKendall(PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
 ```
 
 
@@ -78,7 +78,6 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 2. the **Euclidean distance** matrix
 3. the **Kendall dissimilarity** matrix
 
-in that order.
 
 ```{r}
 dim(res[[1]]) # szKendall or szKendall1
@@ -86,12 +85,6 @@ dim(res[[2]]) # Euclidean
 dim(res[[3]]) # Kendall 
 ```
 
-<!-- ```{r, fig.width=12, fig.height=4, dpi=300}
-par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
-scHiC_hm_dist(res[[1]],title="szKendall")
-scHiC_hm_dist(res[[2]],title="Euclidean")
-scHiC_hm_dist(res[[3]],title="Kendall")
-``` -->
 
 
 

@@ -15,6 +15,13 @@
 #' @param dist.method Character string specifying which szKendall dissimilarity measure to use.
 #'   Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detail below.
 #' 
+#' @param heatmap A logical. If TRUE, draw heatmaps of
+#'   (i) the szKendall dissimilarity,
+#'   (ii) the Euclidean distance, and
+#'   (iii) the Kendall dissimilarity,
+#'   in that order. Default is FALSE. Note that this may take
+#'   some time if the number of cells is large.
+#' 
 #'
 #' @return A list of three squared symmetric dissimilarity matrices will be returned, one for szKendall(1),
 #'  one for Euclidean, and one for Kendall (the last two was for the comparison purpose when drawing the heatmaps).
@@ -54,11 +61,10 @@
 #' 
 #' 
 #' @export
-szKendall <- function(counts,
-                      dist.method = "szKendall") {
+szKendall <- function(contacts, dist.method = "szKendall", heatmap=FALSE) {
 
   # Normalize input types into matrix form
-  mat_count <- bind_to_matrix(counts)
+  mat_count <- bind_to_matrix(contacts)
 
   # Compute kendall.dist
   kendall.dist <- kendall.diss(mat_count)
@@ -83,6 +89,13 @@ szKendall <- function(counts,
     )
   }
   szkendall.dist <- method_dispatch[[dist.method]](mat_count, kendall.dist)
+
+  if(heatmap){
+    par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
+    scHiC_hm_dist(res[[1]],title=dist.method)
+    scHiC_hm_dist(res[[2]],title="Euclidean")
+    scHiC_hm_dist(res[[3]],title="Kendall")
+  }
   
   res=list(
     szKendall = szkendall.dist,

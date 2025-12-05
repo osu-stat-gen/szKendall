@@ -4,11 +4,18 @@
 \alias{szKendall}
 \title{Calculate szKendall-based dissimilarity among a set of single cells using scHi-C data.}
 \usage{
-szKendall(counts, dist.method = "szKendall")
+szKendall(counts, dist.method = "szKendall", heatmap = FALSE)
 }
 \arguments{
 \item{dist.method}{Character string specifying which szKendall dissimilarity measure to use.
 Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detail below.}
+
+\item{heatmap}{A logical. If TRUE, draw heatmaps of
+(i) the szKendall dissimilarity,
+(ii) the Euclidean distance, and
+(iii) the Kendall dissimilarity,
+in that order. Default is FALSE. Note that this may take
+some time if the number of cells is large.}
 
 \item{contacts}{Single-cell Hi-C input data.This package supports three input formats:
 \itemize{
