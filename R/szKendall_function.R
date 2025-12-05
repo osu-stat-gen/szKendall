@@ -23,7 +23,7 @@ szKendall.diss <- function(mat_count,...){
 
   szkendall.dist <- matrix(0, nrow=n.cells, ncol=n.cells)
 
-  fail.index <- c()
+  fail.index <-  matrix(ncol = 2, nrow = 0)
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall.dist[i,j]<1e-5){
@@ -44,7 +44,7 @@ szKendall.diss <- function(mat_count,...){
     szkendall.dist[scoreS[m, 1], scoreS[m, 2]] <- scoreS[m, 3]
   }
 
-  fail.index <- c()
+  fail.index <- matrix(ncol = 2, nrow = 0)
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall.dist[i,j]<1e-5){

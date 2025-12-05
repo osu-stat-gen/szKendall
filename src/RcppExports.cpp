@@ -10,36 +10,158 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// cal_weight_vec3
-NumericVector cal_weight_vec3(int n);
-RcppExport SEXP _szKendall_cal_weight_vec3(SEXP nSEXP) {
+// sortedIndex
+IntegerVector sortedIndex(NumericVector x);
+RcppExport SEXP _szKendall_sortedIndex(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cal_weight_vec3(n));
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sortedIndex(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// cal_weight_sz_vec3
-NumericVector cal_weight_sz_vec3(int n);
-RcppExport SEXP _szKendall_cal_weight_sz_vec3(SEXP nSEXP) {
+// compare_self
+IntegerVector compare_self(NumericVector x);
+RcppExport SEXP _szKendall_compare_self(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cal_weight_sz_vec3(n));
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compare_self(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// cal_weight_vec1
-NumericVector cal_weight_vec1(int n);
-RcppExport SEXP _szKendall_cal_weight_vec1(SEXP nSEXP) {
+// tieXcount
+double tieXcount(NumericVector x);
+RcppExport SEXP _szKendall_tieXcount(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(tieXcount(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// tieXYcount
+double tieXYcount(NumericVector x, NumericVector y);
+RcppExport SEXP _szKendall_tieXYcount(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(tieXYcount(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// kendall_discordant
+int kendall_discordant(IntegerVector x, IntegerVector y);
+RcppExport SEXP _szKendall_kendall_discordant(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(kendall_discordant(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// kendall_distance_cpp
+double kendall_distance_cpp(NumericVector x, NumericVector y);
+RcppExport SEXP _szKendall_kendall_distance_cpp(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(kendall_distance_cpp(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// weight
+double weight(int n, int diff);
+RcppExport SEXP _szKendall_weight(SEXP nSEXP, SEXP diffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cal_weight_vec1(n));
+    Rcpp::traits::input_parameter< int >::type diff(diffSEXP);
+    rcpp_result_gen = Rcpp::wrap(weight(n, diff));
+    return rcpp_result_gen;
+END_RCPP
+}
+// weight_sz
+double weight_sz(int diff);
+RcppExport SEXP _szKendall_weight_sz(SEXP diffSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type diff(diffSEXP);
+    rcpp_result_gen = Rcpp::wrap(weight_sz(diff));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cal_weight_vec
+NumericVector cal_weight_vec(int n);
+RcppExport SEXP _szKendall_cal_weight_vec(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_weight_vec(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cal_weight_sz_vec
+NumericVector cal_weight_sz_vec(int n);
+RcppExport SEXP _szKendall_cal_weight_sz_vec(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_weight_sz_vec(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// countPairsWithDiffK
+int countPairsWithDiffK(IntegerVector arr, int n, int k);
+RcppExport SEXP _szKendall_countPairsWithDiffK(SEXP arrSEXP, SEXP nSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type arr(arrSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(countPairsWithDiffK(arr, n, k));
+    return rcpp_result_gen;
+END_RCPP
+}
+// szkendall_cpp
+double szkendall_cpp(NumericVector Y1, NumericVector Y2, Nullable<IntegerVector> Y1_sz_idx, Nullable<IntegerVector> Y2_sz_idx, NumericVector weight_vec, NumericVector weight_sz_vec, String type);
+RcppExport SEXP _szKendall_szkendall_cpp(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_vecSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Y1(Y1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Y2(Y2SEXP);
+    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y1_sz_idx(Y1_sz_idxSEXP);
+    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y2_sz_idx(Y2_sz_idxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type weight_vec(weight_vecSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type weight_sz_vec(weight_sz_vecSEXP);
+    Rcpp::traits::input_parameter< String >::type type(typeSEXP);
+    rcpp_result_gen = Rcpp::wrap(szkendall_cpp(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_vec, weight_sz_vec, type));
+    return rcpp_result_gen;
+END_RCPP
+}
+// weight1_sz
+double weight1_sz(int diff);
+RcppExport SEXP _szKendall_weight1_sz(SEXP diffSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type diff(diffSEXP);
+    rcpp_result_gen = Rcpp::wrap(weight1_sz(diff));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -54,77 +176,56 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cal_weight_sz_vec2
-NumericVector cal_weight_sz_vec2(int n);
-RcppExport SEXP _szKendall_cal_weight_sz_vec2(SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cal_weight_sz_vec2(n));
-    return rcpp_result_gen;
-END_RCPP
-}
-// szkendall
-double szkendall(NumericVector Y1, NumericVector Y2, Nullable<IntegerVector> Y1_sz_idx, Nullable<IntegerVector> Y2_sz_idx, NumericVector weight_vec, NumericVector weight_sz_vec, String type);
-RcppExport SEXP _szKendall_szkendall(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_vecSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
+// szkendall1_cpp_Kendallpart
+double szkendall1_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, NumericVector weight_sz_vec, String type);
+RcppExport SEXP _szKendall_szkendall1_cpp_Kendallpart(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type Y1(Y1SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type Y2(Y2SEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y1_sz_idx(Y1_sz_idxSEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y2_sz_idx(Y2_sz_idxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type weight_vec(weight_vecSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type Y1_sz_idx(Y1_sz_idxSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type Y2_sz_idx(Y2_sz_idxSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type weight_sz_vec(weight_sz_vecSEXP);
     Rcpp::traits::input_parameter< String >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(szkendall(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_vec, weight_sz_vec, type));
+    rcpp_result_gen = Rcpp::wrap(szkendall1_cpp_Kendallpart(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_sz_vec, type));
     return rcpp_result_gen;
 END_RCPP
 }
-// szkendall1
-double szkendall1(NumericVector Y1, NumericVector Y2, Nullable<IntegerVector> Y1_sz_idx, Nullable<IntegerVector> Y2_sz_idx, NumericVector weight_vec, NumericVector weight_sz_vec, String type);
-RcppExport SEXP _szKendall_szkendall1(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_vecSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
+// szkendall1_cpp_SZpart
+double szkendall1_cpp_SZpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, NumericVector weight_sz_vec, String type);
+RcppExport SEXP _szKendall_szkendall1_cpp_SZpart(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type Y1(Y1SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type Y2(Y2SEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y1_sz_idx(Y1_sz_idxSEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y2_sz_idx(Y2_sz_idxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type weight_vec(weight_vecSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type Y1_sz_idx(Y1_sz_idxSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type Y2_sz_idx(Y2_sz_idxSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type weight_sz_vec(weight_sz_vecSEXP);
     Rcpp::traits::input_parameter< String >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(szkendall1(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_vec, weight_sz_vec, type));
-    return rcpp_result_gen;
-END_RCPP
-}
-// szkendall2
-double szkendall2(NumericVector Y1, NumericVector Y2, Nullable<IntegerVector> Y1_sz_idx, Nullable<IntegerVector> Y2_sz_idx, NumericVector weight_sz_vec, String type);
-RcppExport SEXP _szKendall_szkendall2(SEXP Y1SEXP, SEXP Y2SEXP, SEXP Y1_sz_idxSEXP, SEXP Y2_sz_idxSEXP, SEXP weight_sz_vecSEXP, SEXP typeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type Y1(Y1SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type Y2(Y2SEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y1_sz_idx(Y1_sz_idxSEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type Y2_sz_idx(Y2_sz_idxSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type weight_sz_vec(weight_sz_vecSEXP);
-    Rcpp::traits::input_parameter< String >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(szkendall2(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_sz_vec, type));
+    rcpp_result_gen = Rcpp::wrap(szkendall1_cpp_SZpart(Y1, Y2, Y1_sz_idx, Y2_sz_idx, weight_sz_vec, type));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_szKendall_cal_weight_vec3", (DL_FUNC) &_szKendall_cal_weight_vec3, 1},
-    {"_szKendall_cal_weight_sz_vec3", (DL_FUNC) &_szKendall_cal_weight_sz_vec3, 1},
-    {"_szKendall_cal_weight_vec1", (DL_FUNC) &_szKendall_cal_weight_vec1, 1},
+    {"_szKendall_sortedIndex", (DL_FUNC) &_szKendall_sortedIndex, 1},
+    {"_szKendall_compare_self", (DL_FUNC) &_szKendall_compare_self, 1},
+    {"_szKendall_tieXcount", (DL_FUNC) &_szKendall_tieXcount, 1},
+    {"_szKendall_tieXYcount", (DL_FUNC) &_szKendall_tieXYcount, 2},
+    {"_szKendall_kendall_discordant", (DL_FUNC) &_szKendall_kendall_discordant, 2},
+    {"_szKendall_kendall_distance_cpp", (DL_FUNC) &_szKendall_kendall_distance_cpp, 2},
+    {"_szKendall_weight", (DL_FUNC) &_szKendall_weight, 2},
+    {"_szKendall_weight_sz", (DL_FUNC) &_szKendall_weight_sz, 1},
+    {"_szKendall_cal_weight_vec", (DL_FUNC) &_szKendall_cal_weight_vec, 1},
+    {"_szKendall_cal_weight_sz_vec", (DL_FUNC) &_szKendall_cal_weight_sz_vec, 1},
+    {"_szKendall_countPairsWithDiffK", (DL_FUNC) &_szKendall_countPairsWithDiffK, 3},
+    {"_szKendall_szkendall_cpp", (DL_FUNC) &_szKendall_szkendall_cpp, 7},
+    {"_szKendall_weight1_sz", (DL_FUNC) &_szKendall_weight1_sz, 1},
     {"_szKendall_cal_weight_sz_vec1", (DL_FUNC) &_szKendall_cal_weight_sz_vec1, 1},
-    {"_szKendall_cal_weight_sz_vec2", (DL_FUNC) &_szKendall_cal_weight_sz_vec2, 1},
-    {"_szKendall_szkendall", (DL_FUNC) &_szKendall_szkendall, 7},
-    {"_szKendall_szkendall1", (DL_FUNC) &_szKendall_szkendall1, 7},
-    {"_szKendall_szkendall2", (DL_FUNC) &_szKendall_szkendall2, 6},
+    {"_szKendall_szkendall1_cpp_Kendallpart", (DL_FUNC) &_szKendall_szkendall1_cpp_Kendallpart, 6},
+    {"_szKendall_szkendall1_cpp_SZpart", (DL_FUNC) &_szKendall_szkendall1_cpp_SZpart, 6},
     {NULL, NULL, 0}
 };
 

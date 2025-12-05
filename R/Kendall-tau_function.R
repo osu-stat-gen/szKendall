@@ -17,7 +17,7 @@ kendall.diss <- function(mat_count){
 
   kendall.dist <- matrix(0, nrow=n.cells, ncol=n.cells)
 
-  fail.index <- c()
+  fail.index <- matrix(ncol = 2, nrow = 0)
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(kendall.dist[i,j]<1e-5){

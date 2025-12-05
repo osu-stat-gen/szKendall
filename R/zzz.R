@@ -4,7 +4,7 @@
 #' 
 #' @docType package
 #' @name szKendall
-#' @useDynLib szKendall, .registraion = TRUE
+#' @useDynLib szKendall, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @importFrom foreach foreach %dopar% registerDoSEQ
 #' @keywords internal

@@ -502,3 +502,219 @@ double szkendall_cpp(NumericVector Y1, NumericVector Y2, Nullable<IntegerVector>
 }
 
 
+
+//-----------------------------------------------------------------------------------------
+
+
+// Structural zero discrepancy score
+// [[Rcpp::export]]
+double weight1_sz(int diff){
+  double weight_sz_i_j = pow(1.0+abs(diff), -0.5);
+  return(weight_sz_i_j);
+}
+
+// Calculate SZ-weight vector that depends on |j-i|-|u-v|
+// [[Rcpp::export]]
+NumericVector cal_weight_sz_vec1(int n){
+  NumericVector weight_sz_vec(n);
+  
+  for(int iter=0; iter<n; iter++){
+    weight_sz_vec[iter] = weight1_sz(iter);
+  }
+  
+  return(weight_sz_vec);
+}
+
+
+
+// [[Rcpp::export]]
+double szkendall1_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
+                                  NumericVector weight_sz_vec, String type="Nodiag"){
+  if(Y1.length() != Y2.length()){
+    stop("Error: The two single cell contact count vectors do not have the same length!"); 
+  }else{
+    
+    int n = 0; 
+    int len = Y1.length();  // at least 3 
+    
+    if(type == "Nodiag"){
+      // In this case, len = n*(n-1)/2
+      n = ceil(sqrt(2.0*len));  // number of bins, at least 2
+    }else{
+      // In this case, len = n*(n+1)/2
+      n = floor(sqrt(2.0*len));  // number of bins, at least 2
+    }
+    
+    //IntegerVector row_idx(len);
+    //IntegerVector col_idx(len);
+    IntegerVector rowminuscol_idx(len);
+    
+    if(type == "Nodiag"){
+      //row_idx[0] = 1;
+      //col_idx[0] = 2;
+      rowminuscol_idx[0] = 1;
+      for(int i=1; i<(n-1); i++){
+        //row_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = seq(1,i+1);
+        //col_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rep(i+2,i+1);
+        rowminuscol_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rev(seq(1, i+1));
+      }
+    }else{
+      //row_idx[0] = 1;
+      //col_idx[0] = 1;
+      rowminuscol_idx[0] = 0;
+      for(int i=1; i<n; i++){
+        //row_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = seq(1,i+1);
+        //col_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rep(i+1,i+1);
+        rowminuscol_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rev(seq(0, i));
+      }
+    }
+    
+    //row_idx = row_idx - 1;
+    //col_idx = col_idx - 1;
+    
+    
+    IntegerVector whole = seq(1,len);
+    IntegerVector region1 = setdiff(whole, union_(Y1_sz_idx, Y2_sz_idx));
+    region1 = region1.sort();
+    IntegerVector region4 = (intersect(Y1_sz_idx, Y2_sz_idx));
+    region4 = region4.sort();
+    
+    IntegerVector region2 = (setdiff(Y1_sz_idx, region4));
+    region2= region2.sort();
+    IntegerVector region3 = (setdiff(Y2_sz_idx, region4));
+    region3 = region3.sort();
+    
+    IntegerVector region23 = union_(region2, region3);
+    region23 = region23.sort();
+    
+    region1 = region1 - 1;
+    region2 = region2 - 1;
+    region3 = region3 - 1;
+    region23 = region23 - 1;
+    region4 = region4 - 1;
+    
+    
+    double score = 0.0;
+    NumericMatrix K(len, len);
+    
+    int n1 = region1.length();
+    int n2 = region2.length();
+    int n3 = region3.length();
+    int n4 = region4.length();
+    int n23 = region23.length(); 
+    
+    // Rprintf("n1: %d\t n2: %d\t n3: %d\t n4: %d\n", n1, n2, n3, n4);
+    
+    
+    score = kendall_distance_cpp(Y1, Y2); 
+    
+    return(score);
+  }
+}
+
+
+// szkendall's tau for loci pair (i,j) in single-cell 1 and loci pair (u,v) in single-cell 2 for all (i,j) and (u,v)
+// [[Rcpp::export]]
+double szkendall1_cpp_SZpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
+                             NumericVector weight_sz_vec, String type="Nodiag"){
+  if(Y1.length() != Y2.length()){
+    stop("Error: The two single cell contact count vectors do not have the same length!"); 
+  }else{
+    
+    int n = 0; 
+    int len = Y1.length();  // at least 3 
+    
+    if(type == "Nodiag"){
+      // In this case, len = n*(n-1)/2
+      n = ceil(sqrt(2.0*len));  // number of bins, at least 2
+    }else{
+      // In this case, len = n*(n+1)/2
+      n = floor(sqrt(2.0*len));  // number of bins, at least 2
+    }
+    
+    //IntegerVector row_idx(len);
+    //IntegerVector col_idx(len);
+    IntegerVector rowminuscol_idx(len);
+    
+    if(type == "Nodiag"){
+      //row_idx[0] = 1;
+      //col_idx[0] = 2;
+      rowminuscol_idx[0] = 1;
+      for(int i=1; i<(n-1); i++){
+        //row_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = seq(1,i+1);
+        //col_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rep(i+2,i+1);
+        rowminuscol_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rev(seq(1, i+1));
+      }
+    }else{
+      //row_idx[0] = 1;
+      //col_idx[0] = 1;
+      rowminuscol_idx[0] = 0;
+      for(int i=1; i<n; i++){
+        //row_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = seq(1,i+1);
+        //col_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rep(i+1,i+1);
+        rowminuscol_idx[seq(sum(seq(1,i)), sum(seq(1,i+1))-1)] = rev(seq(0, i));
+      }
+    }
+    
+    //row_idx = row_idx - 1;
+    //col_idx = col_idx - 1;
+    
+    
+    IntegerVector whole = seq(1,len);
+    IntegerVector region1 = setdiff(whole, union_(Y1_sz_idx, Y2_sz_idx));
+    region1 = region1.sort();
+    IntegerVector region4 = (intersect(Y1_sz_idx, Y2_sz_idx));
+    region4 = region4.sort();
+    
+    IntegerVector region2 = (setdiff(Y1_sz_idx, region4));
+    region2= region2.sort();
+    IntegerVector region3 = (setdiff(Y2_sz_idx, region4));
+    region3 = region3.sort();
+    
+    IntegerVector region23 = union_(region2, region3);
+    region23 = region23.sort();
+    
+    region1 = region1 - 1;
+    region2 = region2 - 1;
+    region3 = region3 - 1;
+    region23 = region23 - 1;
+    region4 = region4 - 1;
+    
+    
+    double score = 0.0;
+    NumericMatrix K(len, len);
+    
+    int n1 = region1.length();
+    int n2 = region2.length();
+    int n3 = region3.length();
+    int n4 = region4.length();
+    int n23 = region23.length(); 
+    
+    // Rprintf("n1: %d\t n2: %d\t n3: %d\t n4: %d\n", n1, n2, n3, n4);
+    
+    
+    score = 0.0; 
+    
+    double tmp = 0.0;
+    if(n23 > 0){
+      for(int r=0; r<n23; r++){
+        tmp = tmp+weight_sz_vec[abs(rowminuscol_idx[region23[r]])]; 
+      }
+    }
+    score = score + tmp*(n1+n4);
+    
+    
+    tmp = 0.0;
+    if(n23 > 1){
+      for(int r=0; r<n23; r++){
+        tmp = tmp + weight_sz_vec[abs(rowminuscol_idx[region23[r]])] * (n23-1);
+      }
+    }
+    score = score + tmp;
+    
+    
+    return(score);
+  }
+}
+
+
