@@ -1,9 +1,4 @@
 
-utils::globalVariables(c(
-  "foreach", "%dopar%", "para",
-  "szkendall.dist"
-))
-
 #' Calculate szKendall dissimilarity
 #'
 #' This function computes the szKendall dissimilarity matrix given an "observed" locus-pair by cell single-cell Hi-C matrix and the "true" expected contact count matrix (where only structural zero positions have the value zero).

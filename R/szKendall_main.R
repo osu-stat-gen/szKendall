@@ -1,33 +1,26 @@
-utils::globalVariables(c(
-  "foreach", "%dopar%", "para",
-  "szkendall.dist"
-))
-
-#' Calculate szKendall-based distance between two sets of contact maps.
+#' Calculate szKendall-based dissimilarity among a set of single cells using scHi-C data.
 #'
 #' @description
-#' This wrapper function harmonizes the input formats of \code{sim.data}
-#' and \code{true.data}, and computes the pairwise dissimilarity using
-#' the selected szKendall method.
+#' This function takes scHi-C data input and computes dissimilarity between each pair of single cells.
+#' In addition to the selected szKendall method, dissimilarity based on Euclidean and Kendall will also be provided for comparison. 
 #' 
-#' @useDynLib szKendall, .registration = TRUE
-#' @importFrom foreach foreach %dopar% registerDoSEQ
-#' @importFrom Rcpp sourceCpp 
 #' 
-#' @param sim.data Input data corresponding to simulated contact maps.
-#'   It can be a list of \eqn{\#LP \times \#LP} matrices (one per cell),
-#'   a 3D array of dimension \eqn{\#LP \times \#LP \times \#cells},
-#'   or a \eqn{(\#LP) \times (\#cells)} matrix. 
-#'   See \code{\link{bind_to_matrix}} for details.
-#' @param true.data Input data corresponding to true contact maps, in the same format as \code{sim.data}.
+#' @param contacts Single-cell Hi-C input data.This package supports three input formats:
+#' \itemize{
+#'  \item \strong{(1)} a list of scHi-C 2D matrices of size \dqn{n} (e.g. the number of bins in a chromosome);
+#'  \item \strong{(2)} a 3D array of dimension \deqn{n \times n \times \#cells};
+#'  \item \strong{(3)} a \deqn{\#locus\text{-}pairs \times \#cells} matrix.
+#' }
+#' 
 #' @param dist.method Character string specifying which szKendall dissimilarity measure to use.
 #'   Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detail below.
 #'
-#' @return A square symmetric szKendall dissimilarity matrix, where the dimension is the number of single cells.
+#' @return A list of three squared symmetric dissimilarity matrices will be returned, one for szKendall(1),
+#'  one for Euclidean, and one for Kendall (the last two was for the comparison purpose when drawing the heatmaps).
 #'
 #' @details
-#' Internally, this function first converts the given data structures into consistent \eqn{\#LP \times \#cells} matrix form via
-#' \code{bind_to_matrix()}, and then dispatches to the corresponding szKendall dissimilarity function.
+#' This function first calls \code{bind_to_matrix()} to prepare the input data into the \deqn{\#locus\text{-}pairs \times \#cells} matrix format if necessary.
+#' Then it calls the function corresponding to the \code{dist.method} specified.
 #' 
 #' When \code{dist.method = "szKendall"}, pairwise contributions are weighted
 #' according to the genomic distance difference using
@@ -49,7 +42,6 @@ utils::globalVariables(c(
 #'
 #' @examples
 #' foreach::registerDoSEQ()
-#' szKendall.diss(sim1.data, true1.data)
 #' 
 #' 
 #' @export

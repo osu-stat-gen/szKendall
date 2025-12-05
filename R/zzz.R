@@ -1,3 +1,11 @@
-utils::globalVariables(c(
-  "foreach", "%dopar%", "para"
-))
+# R/zzz.R
+
+#' szKendall: Structural-zero-aware Kendall's tau for scHi-C data
+#' 
+#' @docType package
+#' @name szKendall
+#' @useDynLib szKendall, .registraion = TRUE
+#' @importFrom Rcpp sourceCpp
+#' @importFrom foreach foreach %dopar% registerDoSEQ
+#' @keywords internal
+"_PACKAGE"
