@@ -193,18 +193,18 @@ double kendall_distance_cpp(NumericVector x, NumericVector y){
 
 // Structural zero discrepancy score
 // [[Rcpp::export]]
-double weight2_sz(int diff){
+double weight1_sz(int diff){
   double weight_sz_i_j = pow(1.0+abs(diff), -0.5);
   return(weight_sz_i_j);
 }
 
 // Calculate SZ-weight vector that depends on |j-i|-|u-v|
 // [[Rcpp::export]]
-NumericVector cal_weight_sz_vec2(int n){
+NumericVector cal_weight_sz_vec1(int n){
   NumericVector weight_sz_vec(n);
   
   for(int iter=0; iter<n; iter++){
-    weight_sz_vec[iter] = weight2_sz(iter);
+    weight_sz_vec[iter] = weight1_sz(iter);
   }
   
   return(weight_sz_vec);
@@ -213,7 +213,7 @@ NumericVector cal_weight_sz_vec2(int n){
 
 
 // [[Rcpp::export]]
-double szkendall2_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
+double szkendall1_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
                                   NumericVector weight_sz_vec, String type="Nodiag"){
   if(Y1.length() != Y2.length()){
     stop("Error: The two single cell contact count vectors do not have the same length!"); 
@@ -300,7 +300,7 @@ double szkendall2_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVec
 
 // szkendall's tau for loci pair (i,j) in single-cell 1 and loci pair (u,v) in single-cell 2 for all (i,j) and (u,v)
 // [[Rcpp::export]]
-double szkendall2_cpp_SZpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
+double szkendall1_cpp_SZpart(NumericVector Y1, NumericVector Y2, IntegerVector Y1_sz_idx, IntegerVector Y2_sz_idx, 
                              NumericVector weight_sz_vec, String type="Nodiag"){
   if(Y1.length() != Y2.length()){
     stop("Error: The two single cell contact count vectors do not have the same length!"); 
