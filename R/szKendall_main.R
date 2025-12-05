@@ -14,10 +14,20 @@
 #' 
 #' @param dist.method Character string specifying which szKendall dissimilarity measure to use.
 #'   Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detail below.
+#' 
 #'
 #' @return A list of three squared symmetric dissimilarity matrices will be returned, one for szKendall(1),
 #'  one for Euclidean, and one for Kendall (the last two was for the comparison purpose when drawing the heatmaps).
+#' 
+#' @section Warning:
+#' \itemize{
+#'   \item Register a parallel backend using the following lines if it is not done first. Other wise this function uses \code{NumCores() - 1} cores by default.
+#' }
 #'
+#' @seealso \code{\link{bind_to_matrix}},
+#'          \code{\link{szKendall.diss}},
+#'          \code{\link{szKendall.diss1}}
+#' 
 #' @details
 #' This function first calls \code{bind_to_matrix()} to prepare the input data into the \deqn{\#locus\text{-}pairs \times \#cells} matrix format if necessary.
 #' Then it calls the function corresponding to the \code{dist.method} specified.
@@ -35,10 +45,8 @@
 #' \deqn{
 #'   W^{K1}_{\,|\!|j-i|\!|-|\!|v-u|\!|} = 1
 #' }
-#'
-#' @seealso \code{\link{bind_to_matrix}},
-#'          \code{\link{szKendall.diss}},
-#'          \code{\link{szKendall.diss2}}
+#' 
+#' 
 #'
 #' @examples
 #' foreach::registerDoSEQ()
@@ -47,15 +55,6 @@
 #' @export
 szKendall <- function(counts,
                       dist.method = "szKendall") {
-
-  # Normalize input types into matrix form
-  mat_count <- bind_to_matrix(counts)
-
-  # Map method names to computation functions
-  method_dispatch <- list(
-    szKendall  = function(mat_count) szKendall.diss(mat_count),
-    szKendall1 = function(mat_count) szKendall2.diss(mat_count)
-  )
 
   # Validate selected method
   if (!dist.method %in% names(method_dispatch)) {
@@ -69,7 +68,28 @@ szKendall <- function(counts,
     )
   }
 
-  # TODO: add Euclidean and Kendall
-  res <- method_dispatch[[dist.method]](sim, truth)
+  # Normalize input types into matrix form
+  mat_count <- bind_to_matrix(counts)
+
+  # Compute kendall.dist
+  kendall.dist <- kendall.diss(count_mat)
+
+  # Compute euclidean.dist; TODO parallelize this
+  euclidean.dist <- as.matrix(dist(t(count_mat),method="euclidean"))
+  # #Standardize?
+  # euclidean.dist <- as.matrix(dist(t(scale(count_mat)),method="euclidean"))
+  
+  # Compute szkendall.dist (NOTE kendall.dist is reused if dist.method=="szkendall1")
+  method_dispatch <- list(
+    szKendall  = function(mat_count,...) szKendall.diss(mat_count,...),
+    szKendall1 = function(mat_count,...) szKendall1.diss(mat_count,...)
+  )
+  szkendall.dist <- method_dispatch[[dist.method]](mat_count, kendall.dist)
+  
+  res=list(
+    szKendall = szkendall.dist,
+    Euclid = euclidean.dist,
+    Kendall = kendall.dist
+  )
   return(res)
 }

@@ -7,7 +7,7 @@
 #' foreach::registerDoSEQ()
 #' szKendall.diss(mat_data)
 #' @export
-szKendall.diss <- function(mat_count){
+szKendall.diss <- function(mat_count,...){
 
   # Register a parallel backend using the following lines if it is not done first:
   if (!foreach::getDoParRegistered()) {
@@ -24,11 +24,9 @@ szKendall.diss <- function(mat_count){
   szkendall.dist <- matrix(0, nrow=n.cells, ncol=n.cells)
 
   fail.index <- c()
-  k <- 0
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall.dist[i,j]<1e-5){
-        k <- k+1
         fail.index <- rbind(fail.index, c(i,j))
       }
     }
@@ -47,11 +45,9 @@ szKendall.diss <- function(mat_count){
   }
 
   fail.index <- c()
-  k <- 0
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall.dist[i,j]<1e-5){
-        k <- k+1
         fail.index <- rbind(fail.index, c(i,j))
       }
     }

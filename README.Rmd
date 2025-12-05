@@ -43,22 +43,9 @@ The installation would take a few minutes on a standard desktop computer.
 
 This is an example which shows you how to calculate the szKendall dissimilarity between cells. The simulated data contain 150 single cells (i.e., 150 columns). Therefore, the resulting szKendall matrix (which is symmetric with the main-diagonal all being 0) is of dimension 150-by-150. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
 
-```{r example}
+```{r example, eval = FALSE}
 library(szKendall)
 
-# Example code
-data("sim1.data")
-data("true1.data")
-# Calculate szKendall dissimilarity 
-doParallel::registerDoParallel(cores = 4)  
-# Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
-# foreach::registerDoSEQ()
-szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
-szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
-doParallel::stopImplicitCluster()
-
-print(dim(szK.sim1))
-print(dim(szK1.sim1))
 ```
 
 

@@ -1,19 +1,13 @@
-
 #' Calculate szKendall1 dissimilarity
 #'
-#' This function computes the szKendall1 dissimilarity matrix given an "observed" locus-pair by cell single-cell Hi-C matrix and the "true" expected contact count matrix (where only structural zero positions have the value zero).
-#'
-#' @importFrom foreach foreach %dopar% registerDoSEQ
-#' @useDynLib szKendall, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
-#' @param sim.data A simulated or observed single-cell Hi-C matrix, where the rows represent locus pairs and columns represent cells.
-#' @param true.data The expected or imputed single-cell Hi-C matrix, which has the same dimension as sim.data.
+#' This function computes the szKendall1 dissimilarity matrix given a  (locus-pair by cell single-cell Hi-C) matrix
+#' @param mat_count A \eqn{(\#LP) \times (\#cells)} matrix.  
 #' @return A square szKendall1 dissimilarity matrix, where the dimension is the number of single cells.
 #' @examples
 #' foreach::registerDoSEQ()
-#' szKendall1.diss(sim1.data, true1.data)
+#' szKendall.diss(mat_data)
 #' @export
-szKendall1.diss <- function(sim.data, true.data){
+szKendall1.diss <- function(mat_count,kendall.dist,...){
 
   # Register a parallel backend using the following lines if it is not done first:
   if (!foreach::getDoParRegistered()) {
@@ -24,37 +18,37 @@ szKendall1.diss <- function(sim.data, true.data){
 
   n.cells <- ncol(sim.data)
   n1 <- ceiling(sqrt(2*nrow(sim.data)))
-  weight_vec1 <- cal_weight_vec1(n=n1)
   weight_sz_vec1 <- cal_weight_sz_vec1(n=n1)
 
   szkendall1.dist <- matrix(0, nrow=n.cells, ncol=n.cells)
 
   fail.index <- c()
-  k <- 0
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall1.dist[i,j]<1e-5){
-        k <- k+1
         fail.index <- rbind(fail.index, c(i,j))
       }
     }
   }
 
-  score1 <- foreach(para=1:nrow(fail.index), .combine = 'rbind', .noexport="szkendall1") %dopar%{
-    value <- szkendall1(sim.data[,fail.index[para,1]], sim.data[,fail.index[para,2]], which(true.data[,fail.index[para,1]]==0), which(true.data[,fail.index[para,2]]==0), weight_vec1, weight_sz_vec1, type="Nodiag")
-    c(fail.index[para,1], fail.index[para,2], value)
-  }
+  scoreS1 <- foreach(para = 1:nrow(fail.index), .combine = 'rbind',.noexport = "szkendall1_cpp") %dopar% {
+                        i <- fail.index[para, 1]; j <- fail.index[para, 2]
+                        szi <- which(mat_count[, i] == 0)
+                        szj <- which(mat_count[, j] == 0)
+                        val <- szkendall1_cpp(mat_count[, i],
+                                              mat_count[, j],
+                                              szi, szj, weight_sz_vec1, type = "Nodiag")
+                        c(i, j, val)
+                      }
 
   for(m in 1:nrow(fail.index)){
-    szkendall1.dist[score1[m,1], score1[m,2]] <- score1[m,3]
+    szkendall1.dist[scoreS1[m,1], scoreS1[m,2]] <- scoreS1[m,3]
   }
 
   fail.index <- c()
-  k <- 0
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall1.dist[i,j]<1e-5){
-        k <- k+1
         fail.index <- rbind(fail.index, c(i,j))
       }
     }
@@ -64,7 +58,9 @@ szKendall1.diss <- function(sim.data, true.data){
     warning("Parallel computing of szKendall1 among the cell pairs is not done properly. Please re-run the function and/or re-set the parallel backend.")
   }
 
-  szkendall1.dist <- (szkendall1.dist + t(szkendall1.dist))
+  szkendall1.dist <- (szkendall1.dist + t(szkendall1.dist)) # symmetrize
+
+  szkendall1.dist <- (szkendall1.dist + kendall.dist)      # add Kendall part
 
   rownames(szkendall1.dist) <- NULL
   colnames(szkendall1.dist) <- NULL
