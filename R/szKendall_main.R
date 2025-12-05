@@ -89,18 +89,18 @@ szKendall <- function(contacts, dist.method = "szKendall", heatmap=FALSE) {
     )
   }
   szkendall.dist <- method_dispatch[[dist.method]](mat_count, kendall.dist)
-
-  if(heatmap){
-    par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
-    scHiC_hm_dist(res[[1]],title=dist.method)
-    scHiC_hm_dist(res[[2]],title="Euclidean")
-    scHiC_hm_dist(res[[3]],title="Kendall")
-  }
   
   res=list(
     szKendall = szkendall.dist,
     Euclid = euclidean.dist,
     Kendall = kendall.dist
   )
+  
+  if(heatmap){
+    par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
+    scHiC_hm_dist(res[[1]],title=dist.method)
+    scHiC_hm_dist(res[[2]],title="Euclidean")
+    scHiC_hm_dist(res[[3]],title="Kendall")
+  }
   return(res)
 }

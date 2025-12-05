@@ -4,9 +4,16 @@
 \alias{szKendall}
 \title{Calculate szKendall-based dissimilarity among a set of single cells using scHi-C data.}
 \usage{
-szKendall(counts, dist.method = "szKendall", heatmap = FALSE)
+szKendall(contacts, dist.method = "szKendall", heatmap = FALSE)
 }
 \arguments{
+\item{contacts}{Single-cell Hi-C input data.This package supports three input formats:
+\itemize{
+\item a list of scHi-C 2D matrices of size \eqn{n} (e.g. the number of bins in a chromosome);
+\item a 3D array of dimension \eqn{n \times n \times \#cells};
+\item a \eqn{\#locus\text{-}pairs \times \#cells} matrix.
+}}
+
 \item{dist.method}{Character string specifying which szKendall dissimilarity measure to use.
 Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detail below.}
 
@@ -16,13 +23,6 @@ Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detai
 (iii) the Kendall dissimilarity,
 in that order. Default is FALSE. Note that this may take
 some time if the number of cells is large.}
-
-\item{contacts}{Single-cell Hi-C input data.This package supports three input formats:
-\itemize{
-\item a list of scHi-C 2D matrices of size \eqn{n} (e.g. the number of bins in a chromosome);
-\item a 3D array of dimension \eqn{n \times n \times \#cells};
-\item a \eqn{\#locus\text{-}pairs \times \#cells} matrix.
-}}
 }
 \value{
 A list of three squared symmetric dissimilarity matrices will be returned, one for szKendall(1),

@@ -46,8 +46,10 @@ library(szKendall)
 data("PFC_subset_matrix")
 
 foreach::registerDoSEQ()
-res <- szKendall(PFC_subset_matrix,dist.method="szKendall")
+res <- szKendall(contacts=PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
 
 `szKendall()` takes three types of input formats:
 
@@ -68,11 +70,9 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 
 `szKendall()` returns a list of three $n \times n$ symmetric matrices:
 
-1.  the **szKendall dissimilarity** matrix
-2.  the **Euclidean distance** matrix
-3.  the **Kendall dissimilarity** matrix
-
-in that order.
+1.  a **szKendall dissimilarity** matrix
+2.  a **Euclidean distance** matrix
+3.  a **Kendall dissimilarity** matrix
 
 ``` r
 dim(res[[1]]) # szKendall or szKendall1
@@ -82,10 +82,3 @@ dim(res[[2]]) # Euclidean
 dim(res[[3]]) # Kendall 
 #> [1] 140 140
 ```
-
-<!-- ```{r, fig.width=12, fig.height=4, dpi=300}
-par(mfrow=c(1,3), mar = c(4,4,2,5), oma = c(0,0,0,2))
-scHiC_hm_dist(res[[1]],title="szKendall")
-scHiC_hm_dist(res[[2]],title="Euclidean")
-scHiC_hm_dist(res[[3]],title="Kendall")
-``` -->

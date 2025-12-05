@@ -45,12 +45,12 @@ This is an example which shows you how to calculate the szKendall dissimilarity 
 With sequential calculation, the calculation time of one szKendall dissimilarity in this example is less than 1 minute using 19 cores.
 It may take longer when using fewer cores.
 
-```{r example}
+```{r example, fig.width=12, fig.height=4}
 library(szKendall)
 data("PFC_subset_matrix")
 
 foreach::registerDoSEQ()
-res <- szKendall(PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
+res <- szKendall(contacts=PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
 ```
 
 
@@ -74,9 +74,9 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 
 `szKendall()` returns a list of three \(n \times n\) symmetric matrices:
 
-1. the **szKendall dissimilarity** matrix
-2. the **Euclidean distance** matrix
-3. the **Kendall dissimilarity** matrix
+1. a **szKendall dissimilarity** matrix
+2. a **Euclidean distance** matrix
+3. a **Kendall dissimilarity** matrix
 
 
 ```{r}

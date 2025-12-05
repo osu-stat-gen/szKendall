@@ -60,12 +60,12 @@ data("sim1.data")
 data("true1.data") 
 
 # DOs are imputed
-counts <- sim1.data
-counts <- true1[true1.data!=0]
+contacts <- sim1.data
+contacts[true1.data!=0] <- true1.data[true1.data!=0]
 
 # Calculate szKendall dissimilarity, along with its two variants  
-szK  <- szKendall(counts=counts,dist.method="szKendall")
-szK1 <- szKendall1.diss(counts=counts,dist.method="szKendall1")
+szK  <- szKendall(contacts=contacts,dist.method="szKendall")
+szK1 <- szKendall1.diss(contacts=contacts,dist.method="szKendall1")
 
 print(dim(szK))
 print(dim(szK1))
