@@ -47,7 +47,10 @@
 #'
 #' @examples
 #' foreach::registerDoSEQ()
-#' res <- szKendall(szKendall::PFC_subset,dist.method="szKendall")
+#' res <- szKendall(szKendall::PFC_subset_matrix,dist.method="szKendall")
+#' # or res <- szKendall(szKendall::PFC_subset_array,dist.method="szKendall")
+#' # or res <- szKendall(szKendall::PFC_subset_list,dist.method="szKendall")
+#' 
 #' 
 #' 
 #' @export
