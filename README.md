@@ -51,10 +51,10 @@ res <- szKendall(PFC_subset_matrix,dist.method="szKendall")
 
 `szKendall()` takes three types of input formats:
 
-- a list of scHi-C 2D matrices of size $n$ (e.g., number of bins per
+- a list of scHi-C 2D matrices of size (e.g., number of bins per
   chromosome)
-- a 3D array of dimension $(n \times n \times \#\text{cells})$
-- a $(\#\text{locus-pairs} \times \#\text{cells})$ matrix
+- a 3D array of dimension
+- a matrix
 
 ``` r
 # A list n*n matrices, one per cell. 
