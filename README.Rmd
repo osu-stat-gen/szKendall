@@ -45,7 +45,7 @@ This is an example which shows you how to calculate the szKendall dissimilarity 
 
 ```{r example, eval = FALSE}
 library(szKendall)
-data("HumanPFC_subset.rda")
+data("HumanPFC_subset")
 
 
 

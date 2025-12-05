@@ -19,11 +19,7 @@
 #' @return A list of three squared symmetric dissimilarity matrices will be returned, one for szKendall(1),
 #'  one for Euclidean, and one for Kendall (the last two was for the comparison purpose when drawing the heatmaps).
 #' 
-#' @section Warning:
-#' \itemize{
-#'   \item Register a parallel backend if it is not done yet. Other wise this function uses \code{NumCores() - 1} cores by default.
-#'   \item 
-#' }
+#' @section Warning: Register a parallel backend if it is not done yet. Other wise this function uses \code{NumCores() - 1} cores by default.
 #'
 #' @seealso \code{\link{bind_to_matrix}},
 #'          \code{\link{szKendall.diss}},
