@@ -57,9 +57,7 @@ res <- szKendall(PFC_subset_matrix,dist.method="szKendall")
 `szKendall()` takes three types of input formats:
 
 - a list of scHi-C 2D matrices of size \(n\) (e.g., number of bins per chromosome)
-
 - a 3D array of dimension \(n \times n \times \#\text{cells}\)
-
 - a \(\#\text{locus-pairs} \times \#\text{cells}\) matrix
 
 
@@ -77,17 +75,15 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 `szKendall()` returns a list of three \(n \times n\) symmetric matrices:
 
 1. the **szKendall dissimilarity** matrix
-
 2. the **Euclidean distance** matrix
-
 3. the **Kendall dissimilarity** matrix
 
 in that order.
 
 ```{r}
-head(res[[1]]) # szKendall or szKendall1
-head(res[[2]]) # Euclidean 
-head(res[[3]]) # Kendall 
+dim(res[[1]]) # szKendall or szKendall1
+dim(res[[2]]) # Euclidean 
+dim(res[[3]]) # Kendall 
 ```
 
 <!-- ```{r, fig.width=12, fig.height=4, dpi=300}
