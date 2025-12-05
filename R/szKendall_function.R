@@ -45,9 +45,10 @@ szKendall.diss <- function(mat_count,...){
   }
 
   
-  if(any(szkendall.dist[upper.tri(szkendall.dist,diag=F)] < 1e-5)) {
-    warning("Parallel computing of szKendall among the cell pairs is not done properly. Please re-run the function and/or re-set the parallel backend.")
-  }
+  # Need to fix this error handling part
+  # if(any(szkendall1.dist[upper.tri(szkendall1.dist,diag=F)] < 1e-5)) {
+  #   warning("Parallel computing of szKendall among the cell pairs is not done properly. Please re-run the function and/or re-set the parallel backend.")
+  # }
 
   szkendall.dist <- (szkendall.dist + t(szkendall.dist))
 
