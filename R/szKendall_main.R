@@ -57,12 +57,12 @@ szKendall <- function(counts,
   mat_count <- bind_to_matrix(counts)
 
   # Compute kendall.dist
-  kendall.dist <- kendall.diss(count_mat)
+  kendall.dist <- kendall.diss(mat_count)
 
   # Compute euclidean.dist; TODO parallelize this
-  euclidean.dist <- as.matrix(dist(t(count_mat),method="euclidean"))
+  euclidean.dist <- as.matrix(dist(t(mat_count),method="euclidean"))
   # #Standardize?
-  # euclidean.dist <- as.matrix(dist(t(scale(count_mat)),method="euclidean"))
+  # euclidean.dist <- as.matrix(dist(t(scale(mat_count)),method="euclidean"))
   
   # Compute szkendall.dist (NOTE kendall.dist is reused if dist.method=="szkendall1")
   # Validate selected method

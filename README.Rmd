@@ -41,14 +41,14 @@ The installation would take a few minutes on a standard desktop computer.
 
 ## Example
 
-This is an example which shows you how to calculate the szKendall dissimilarity between cells. The simulated data contain 150 single cells (i.e., 150 columns). Therefore, the resulting szKendall matrix (which is symmetric with the main-diagonal all being 0) is of dimension 150-by-150. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
+This is an example which shows you how to calculate the szKendall dissimilarity between cells.The `PFC_subset` dataset consists of chr21 single-cell Hi-C contact matrices generated from 14 human prefrontal cortex (PFC) cell types, with 25 cells sampled from each type. Each matrix represents loci-pair-by-cell contact profiles that have been pre-processed using \pkg{HiCImpute}. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
 
 ```{r example, eval = FALSE}
 library(szKendall)
-data("HumanPFC_subset")
+data("PFC_subset")
 
-
-
+foreach::registerDoSEQ()
+res <- szKendall(PFC_subset,dist.method="szKendall")
 
 ```
 

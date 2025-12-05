@@ -44,11 +44,7 @@ For \code{dist.method = "szKendall1"},
 }
 }
 \section{Warning}{
-
-\itemize{
-\item Register a parallel backend if it is not done yet. Other wise this function uses \code{NumCores() - 1} cores by default.
-\item
-}
+ Register a parallel backend if it is not done yet. Other wise this function uses \code{NumCores() - 1} cores by default.
 }
 
 \examples{

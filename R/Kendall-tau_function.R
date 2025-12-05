@@ -41,7 +41,7 @@ kendall.diss <- function(mat_count){
   rownames(kendall.dist) <- NULL
   colnames(kendall.dist) <- NULL
 
-  return(szkendall.dist)
+  return(kendall.dist)
 }
 
 
