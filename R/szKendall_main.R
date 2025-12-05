@@ -53,18 +53,6 @@
 szKendall <- function(counts,
                       dist.method = "szKendall") {
 
-  # Validate selected method
-  if (!dist.method %in% names(method_dispatch)) {
-    stop(
-      sprintf(
-        "Unsupported dist.method: '%s'.\nAvailable options: %s",
-        dist.method,
-        paste(names(method_dispatch), collapse = ", ")
-      ),
-      call. = FALSE
-    )
-  }
-
   # Normalize input types into matrix form
   mat_count <- bind_to_matrix(counts)
 
@@ -77,6 +65,17 @@ szKendall <- function(counts,
   # euclidean.dist <- as.matrix(dist(t(scale(count_mat)),method="euclidean"))
   
   # Compute szkendall.dist (NOTE kendall.dist is reused if dist.method=="szkendall1")
+  # Validate selected method
+  if (!dist.method %in% names(method_dispatch)) {
+    stop(
+      sprintf(
+        "Unsupported dist.method: '%s'.\nAvailable options: %s",
+        dist.method,
+        paste(names(method_dispatch), collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
   method_dispatch <- list(
     szKendall  = function(mat_count,...) szKendall.diss(mat_count,...),
     szKendall1 = function(mat_count,...) szKendall1.diss(mat_count,...)
