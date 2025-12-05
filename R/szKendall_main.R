@@ -65,6 +65,10 @@ szKendall <- function(counts,
   # euclidean.dist <- as.matrix(dist(t(scale(mat_count)),method="euclidean"))
   
   # Compute szkendall.dist (NOTE kendall.dist is reused if dist.method=="szkendall1")
+  method_dispatch <- list(
+    szKendall  = function(mat_count,...) szKendall.diss(mat_count,...),
+    szKendall1 = function(mat_count,...) szKendall1.diss(mat_count,...)
+  )
   # Validate selected method
   if (!dist.method %in% names(method_dispatch)) {
     stop(
@@ -76,10 +80,6 @@ szKendall <- function(counts,
       call. = FALSE
     )
   }
-  method_dispatch <- list(
-    szKendall  = function(mat_count,...) szKendall.diss(mat_count,...),
-    szKendall1 = function(mat_count,...) szKendall1.diss(mat_count,...)
-  )
   szkendall.dist <- method_dispatch[[dist.method]](mat_count, kendall.dist)
   
   res=list(

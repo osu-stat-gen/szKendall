@@ -41,7 +41,7 @@ The installation would take a few minutes on a standard desktop computer.
 
 ## Example
 
-This is an example which shows you how to calculate the szKendall dissimilarity between cells.The `PFC_subset` dataset consists of chr21 single-cell Hi-C contact matrices generated from 14 human prefrontal cortex (PFC) cell types, with 25 cells sampled from each type. Each matrix represents loci-pair-by-cell contact profiles that have been pre-processed using \pkg{HiCImpute}. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
+This is an example which shows you how to calculate the szKendall dissimilarity between cells.The `PFC_subset` dataset consists of chr21 single-cell Hi-C contact matrices generated from 14 human prefrontal cortex (PFC) cell types, with 10 cells sampled from each type. Each matrix represents loci-pair-by-cell contact profiles that have been pre-processed using \pkg{HiCImpute}. With sequential calculation, the calculation time of one szKendall dissimilarity in this example should be less than 2 minutes, and half (or even less) with parallel computing. 
 
 ```{r example, eval = FALSE}
 library(szKendall)

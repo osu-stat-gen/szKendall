@@ -45,7 +45,7 @@ szKendall1.diss <- function(mat_count,kendall.dist,...){
     szkendall1.dist[scoreS1[m,1], scoreS1[m,2]] <- scoreS1[m,3]
   }
 
-  fail.index <- matrix(ncol = 2, nrow = 0)
+  fail.index <- c()
   for(i in 1:(n.cells-1)){
     for(j in (i+1):(n.cells)){
       if(szkendall1.dist[i,j]<1e-5){
