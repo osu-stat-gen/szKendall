@@ -44,16 +44,8 @@ szKendall.diss <- function(mat_count,...){
     szkendall.dist[scoreS[m, 1], scoreS[m, 2]] <- scoreS[m, 3]
   }
 
-  fail.index <- c()
-  for(i in 1:(n.cells-1)){
-    for(j in (i+1):(n.cells)){
-      if(szkendall.dist[i,j]<1e-5){
-        fail.index <- rbind(fail.index, c(i,j))
-      }
-    }
-  }
-
-  if(!is.null(dim(fail.index))) {
+  
+  if(any(szkendall.dist[upper.tri(szkendall.dist)] < 1e-5)) {
     warning("Parallel computing of szKendall among the cell pairs is not done properly. Please re-run the function and/or re-set the parallel backend.")
   }
 
