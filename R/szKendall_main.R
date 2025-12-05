@@ -47,6 +47,7 @@
 #'
 #' @examples
 #' foreach::registerDoSEQ()
+#' res <- szKendall(szKendall::PFC_subset,dist.method="szKendall")
 #' 
 #' 
 #' @export

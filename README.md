@@ -33,29 +33,30 @@ computer.
 ## Example
 
 This is an example which shows you how to calculate the szKendall
-dissimilarity between cells. The simulated data contain 150 single cells
-(i.e., 150 columns). Therefore, the resulting szKendall matrix (which is
-symmetric with the main-diagonal all being 0) is of dimension
-150-by-150. With sequential calculation, the calculation time of one
-szKendall dissimilarity in this example should be less than 2 minutes,
-and half (or even less) with parallel computing.
+dissimilarity between cells.The `PFC_subset` dataset consists of chr21
+single-cell Hi-C contact matrices generated from 14 human prefrontal
+cortex (PFC) cell types, with 10 cells sampled from each type. Each
+matrix represents loci-pair-by-cell contact profiles that have been
+pre-processed using . With sequential calculation, the calculation time
+of one szKendall dissimilarity in this example should be less than 2
+minutes, and half (or even less) with parallel computing.
 
 ``` r
 library(szKendall)
+data("PFC_subset")
 
-# Example code
-data("sim1.data")
-data("true1.data")
-# Calculate szKendall dissimilarity 
-doParallel::registerDoParallel(cores = 4)  
-# Run foreach::registerDoSEQ() to override any default parallel backend and force sequential calculation 
-# foreach::registerDoSEQ()
-szK.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall")
-szK1.sim1 <- szKendall(sim1.data, true1.data, dist.method = "szKendall1")
-doParallel::stopImplicitCluster()
-
-print(dim(szK.sim1))
-#> [1] 150 150
-print(dim(szK1.sim1))
-#> [1] 150 150
+foreach::registerDoSEQ()
+res <- szKendall(PFC_subset,dist.method="szKendall")
 ```
+
+`szKendall()` returns a list of three $n \times n$ symmetric matrices:
+
+1.  the **szKendall dissimilarity** matrix
+
+2.  the **Euclidean distance** matrix
+
+3.  the **Kendall dissimilarity** matrix
+
+in that order.
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />

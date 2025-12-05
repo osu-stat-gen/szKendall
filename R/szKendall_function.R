@@ -5,7 +5,7 @@
 #' @return A square szKendall dissimilarity matrix, where the dimension is the number of single cells.
 #' @examples
 #' foreach::registerDoSEQ()
-#' szKendall.diss(mat_data)
+#' szKendall.diss(mat_count)
 #' @export
 szKendall.diss <- function(mat_count,...){
 
