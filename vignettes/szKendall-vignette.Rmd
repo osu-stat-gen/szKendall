@@ -62,7 +62,6 @@ data("true1.data")
 # Calculate szKendall dissimilarity, along with its two variants  
 szK.sim1 <- szKendall.diss(sim1.data, true1.data)
 szK1.sim1 <- szKendall1.diss(sim1.data, true1.data)
-szK2.sim1 <- szKendall2.diss(sim1.data, true1.data)
 
 print(dim(szK.sim1))
 print(dim(szK1.sim1))
@@ -179,6 +178,9 @@ ASW(hclust2$cluster, szK.sim1)
 hclust2$silinfo$avg.width
 # MIS 
 MIS(hclust2$cluster, szK.sim1)
+# ARI 
+MIS(hclust2$cluster, szK.sim1)
+
 
 ```
 
