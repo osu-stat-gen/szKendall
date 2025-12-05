@@ -14,7 +14,7 @@ Supported options: \code{"szKendall"} (default), \code{"szKendall1"}. See @detai
 
 \item{contacts}{Single-cell Hi-C input data.This package supports three input formats:
 \itemize{
-\item \strong{(1)} a list of scHi-C 2D matrices of size \dqn{n} (e.g. the number of bins in a chromosome);
+\item \strong{(1)} a list of scHi-C 2D matrices of size \deqn{n} (e.g. the number of bins in a chromosome);
 \item \strong{(2)} a 3D array of dimension \deqn{n \times n \times \#cells};
 \item \strong{(3)} a \deqn{\#locus\text{-}pairs \times \#cells} matrix.
 }}

@@ -7,7 +7,7 @@
 szKendall.diss(mat_count, ...)
 }
 \arguments{
-\item{mat_count}{A \eqn{(\#LP) \times (\#cells)} matrix.}
+\item{mat_count}{A \deqn{(\#LP) \times (\#cells)} matrix.}
 }
 \value{
 A square szKendall dissimilarity matrix, where the dimension is the number of single cells.

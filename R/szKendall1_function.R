@@ -1,7 +1,7 @@
 #' Calculate szKendall1 dissimilarity
 #'
 #' This function computes the szKendall1 dissimilarity matrix given a  (locus-pair by cell single-cell Hi-C) matrix
-#' @param mat_count A \deqn{(\#LP) \times (\#cells)} matrix.  
+#' @param mat_count A \eqn{(\#LP) \times (\#cells)} matrix.  
 #' @return A square szKendall1 dissimilarity matrix, where the dimension is the number of single cells.
 #' @examples
 #' foreach::registerDoSEQ()

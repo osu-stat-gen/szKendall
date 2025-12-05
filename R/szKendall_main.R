@@ -7,9 +7,9 @@
 #' 
 #' @param contacts Single-cell Hi-C input data.This package supports three input formats:
 #' \itemize{
-#'  \item \strong{(1)} a list of scHi-C 2D matrices of size \deqn{n} (e.g. the number of bins in a chromosome);
-#'  \item \strong{(2)} a 3D array of dimension \deqn{n \times n \times \#cells};
-#'  \item \strong{(3)} a \deqn{\#locus\text{-}pairs \times \#cells} matrix.
+#'  \item a list of scHi-C 2D matrices of size \eqn{n} (e.g. the number of bins in a chromosome);
+#'  \item a 3D array of dimension \eqn{n \times n \times \#cells};
+#'  \item a \eqn{\#locus\text{-}pairs \times \#cells} matrix.
 #' }
 #' 
 #' @param dist.method Character string specifying which szKendall dissimilarity measure to use.
@@ -21,7 +21,8 @@
 #' 
 #' @section Warning:
 #' \itemize{
-#'   \item Register a parallel backend using the following lines if it is not done first. Other wise this function uses \code{NumCores() - 1} cores by default.
+#'   \item Register a parallel backend if it is not done yet. Other wise this function uses \code{NumCores() - 1} cores by default.
+#'   \item 
 #' }
 #'
 #' @seealso \code{\link{bind_to_matrix}},
@@ -29,7 +30,7 @@
 #'          \code{\link{szKendall.diss1}}
 #' 
 #' @details
-#' This function first calls \code{bind_to_matrix()} to prepare the input data into the \deqn{\#locus\text{-}pairs \times \#cells} matrix format if necessary.
+#' This function first calls \code{bind_to_matrix()} to prepare the input data into the \eqn{\#locus\text{-}pairs \times \#cells} matrix format if necessary.
 #' Then it calls the function corresponding to the \code{dist.method} specified.
 #' 
 #' When \code{dist.method = "szKendall"}, pairwise contributions are weighted
