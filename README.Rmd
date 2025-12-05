@@ -63,7 +63,7 @@ res <- szKendall(PFC_subset_matrix,dist.method="szKendall")
 - a \(\#\text{locus-pairs} \times \#\text{cells}\) matrix
 
 
-```{r example, eval = FALSE}
+```{r eval = FALSE}
 # A list n*n matrices, one per cell. 
 data("PFC_subset_list")
 szKendall(PFC_subset_list,dist.method="szKendall")
@@ -84,7 +84,7 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 
 in that order.
 
-```{r example}
+```{r}
 head(res[[1]]) # szKendall or szKendall1
 head(res[[2]]) # Euclidean 
 head(res[[3]]) # Kendall 
