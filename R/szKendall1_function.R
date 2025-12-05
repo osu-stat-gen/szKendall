@@ -16,8 +16,8 @@ szKendall1.diss <- function(mat_count,kendall.dist,...){
     on.exit(doParallel::stopImplicitCluster())  # Clean up
   }
 
-  n.cells <- ncol(sim.data)
-  n1 <- ceiling(sqrt(2*nrow(sim.data)))
+  n.cells <- ncol(mat_count)
+  n1 <- ceiling(sqrt(2*nrow(mat_count)))
   weight_sz_vec1 <- cal_weight_sz_vec1(n=n1)
 
   szkendall1.dist <- matrix(0, nrow=n.cells, ncol=n.cells)
