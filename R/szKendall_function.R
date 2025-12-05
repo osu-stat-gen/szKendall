@@ -45,7 +45,7 @@ szKendall.diss <- function(mat_count,...){
   }
 
   
-  if(any(szkendall.dist[upper.tri(szkendall.dist)] < 1e-5)) {
+  if(any(szkendall.dist[upper.tri(szkendall.dist,diag=F)] < 1e-5)) {
     warning("Parallel computing of szKendall among the cell pairs is not done properly. Please re-run the function and/or re-set the parallel backend.")
   }
 
