@@ -4,20 +4,18 @@
 \alias{szKendall.diss}
 \title{Calculate szKendall dissimilarity}
 \usage{
-szKendall.diss(sim.data, true.data)
+szKendall.diss(mat_count, ...)
 }
 \arguments{
-\item{sim.data}{A simulated or observed single-cell Hi-C matrix, where the rows represent locus pairs and columns represent cells.}
-
-\item{true.data}{The expected or imputed single-cell Hi-C matrix, which has the same dimension as sim.data.}
+\item{mat_count}{A \eqn{(\#LP) \times (\#cells)} matrix.}
 }
 \value{
 A square szKendall dissimilarity matrix, where the dimension is the number of single cells.
 }
 \description{
-This function computes the szKendall dissimilarity matrix given an "observed" locus-pair by cell single-cell Hi-C matrix and the "true" expected contact count matrix (where only structural zero positions have the value zero).
+This function computes the szKendall dissimilarity matrix given a  (locus-pair by cell single-cell Hi-C) matrix
 }
 \examples{
 foreach::registerDoSEQ()
-szKendall.diss(sim1.data, true1.data)
+szKendall.diss(mat_data)
 }
