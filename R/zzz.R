@@ -3,7 +3,7 @@
 #' szKendall: Structural-zero-aware Kendall's tau for scHi-C data
 #' 
 #' @docType package
-#' @name szKendall
+#' @name szKendall-package
 #' @useDynLib szKendall, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @importFrom foreach foreach %dopar% registerDoSEQ
