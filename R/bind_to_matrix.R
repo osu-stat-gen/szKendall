@@ -3,74 +3,65 @@
 #' @description 
 #' This function constructs a \eqn{(\#LP) \times (\#cells)} matrix, where each column corresponds to the upper‐triangular entries (excluding the diagonal) of a contact map for a single cell.
 #'
-#' @param sim.data  An array or a list or a matrix object. See detail.
-#' @param true.data An array or a list or a matrix object. See detail.
+#' @param counts  An array or a list or a matrix object. See detail.
 #'
-#' @return A list with two elements: \code{sim.data} and \code{true.data}, matrices. 
+#' @return  A \eqn{(\#LP) \times (\#cells)} matrix. 
 #' 
 #' @examples
 #' ## ---------------------------------------------------------
 #' ## Example 1: sim.data and true.data as lists
 #' ## ---------------------------------------------------------
-#' ## generate sim.data and true.data
+#' ## generate an example of list type counts
 #' nLP   <- 10   # Number of LPs
 #' nCell <- 5    # Number of cells
 #'
-#' sim.data  <- vector("list", nCell)
-#' true.data <- vector("list", nCell)
+#' counts_list  <- vector("list", nCell)
 #'
 #' for (i in seq_len(nCell)) {
-#'   sim.data[[i]]  <- matrix(0, nLP, nLP)
-#'   idx <- upper.tri(sim.data[[i]], diag = FALSE)
-#'   sim.data[[i]][idx]  <- seq_len(sum(idx))
-#'
-#'   true.data[[i]] <- sim.data[[i]] * 10
+#'   counts_list[[i]]  <- matrix(0, nLP, nLP)
+#'   idx <- upper.tri(counts_list[[i]], diag = FALSE)
+#'   counts_list[[i]][idx]  <- seq_len(sum(idx))
 #' }
 #' 
 #' ## run 
-#' bind_to_matrix(sim.data, true.data)
+#' bind_to_matrix(counts_list)
 #'
 #'
 #' ## ---------------------------------------------------------
 #' ## Example 2: sim.data and true.data as 3D arrays
 #' ## ---------------------------------------------------------
-#' ## generate sim.data and true.data
+#' ## generate an example of array type counts
 #' sim.mat  <- matrix(0, nLP, nLP)
 #' idx      <- upper.tri(sim.mat, diag = FALSE)
 #' sim.mat[idx]  <- seq_len(sum(idx))
-#'
-#' true.mat <- sim.mat * 10
-#'
-#' sim.data  <- array(sim.mat,  dim = c(nLP, nLP, nCell))  # 3D array
-#' true.data <- array(true.mat, dim = c(nLP, nLP, nCell))
+#' counts_array  <- array(sim.mat,  dim = c(nLP, nLP, nCell))  # 3D array
 #'
 #' ## run 
-#' bind_to_matrix(sim.data, true.data)
+#' bind_to_matrix(counts_array)
 #'
 #'
 #' ## ---------------------------------------------------------
 #' ## Example 3: sim.data and true.data already in matrix form
 #' ##  Dimension = (#LP*(#LP-1)/2) x (#cells)
 #' ## ---------------------------------------------------------
-#' ## generate sim.data and true.data
-#' sim.data  <- matrix(seq_len(sum(upper.tri(matrix(0, nLP, nLP)))),
+#' ## generate an example of matrix type counts
+#' counts_matrix  <- matrix(seq_len(sum(upper.tri(matrix(0, nLP, nLP)))),
 #'                     nrow = sum(upper.tri(matrix(0, nLP, nLP))),
 #'                     ncol = nCell)
-#' true.data <- sim.data * 10
 #' 
 #' ## run 
-#' bind_to_matrix(sim.data, true.data)
+#' bind_to_matrix(counts_matrix)
 #' 
 #' @details
-#' When `sim.data` and `true.data` are lists, they must satisfy:
+#' When `counts` is a list, it must satisfy:
 #' \itemize{
-#'   \item \code{length(sim.data)} equals the number of cells.
+#'   \item \code{length(counts)} equals the number of cells.
 #'   \item Each element \code{x[[i]]} is a square numeric matrix of size
 #'         (\# of LP) \eqn{\times} (\# of LP), representing the LP-by-LP
 #'         interaction matrix for the \eqn{i}-th cell.
 #' }
 #' 
-#' When `sim.data` and `true.data` are 3D arrays, they must satisfy:
+#' When `counts` is a 3D array, it must satisfy:
 #' \itemize{
 #'   \item Dimension: \eqn{(\#LP) \times (\#LP) \times (\#cells)}.
 #'   \item For every slice \code{[ , , i]}, the matrix is square of size
@@ -78,29 +69,18 @@
 #'         of the \eqn{i}-th cell.
 #' }
 #' 
-#' When `sim.data` and `true.data` are already matrices of dimension \eqn{\#LP \times \#cells}, no further conversion is applied.
+#' When `counts` is a already matrix of dimension \eqn{\#LP \times \#cells}, no further conversion is applied.
 #' 
 #' @export
-bind_to_matrix <- function(sim.data, true.data) {
+bind_to_matrix <- function(counts) {
   allowed_classes <- c("array", "list", "matrix")
-  sim_class  <- class(sim.data)[1]
-  true_class <- class(true.data)[1]
+  counts_class  <- class(counts)[1]
 
-  if (!identical(sim_class, true_class)) {
-    stop(
-      sprintf(
-        "`sim.data` and `true.data` must have the same class.\n  sim.data:  '%s'\n  true.data: '%s'",
-        sim_class, true_class
-      ),
-      call. = FALSE
-    )
-  } 
-
-  if (!sim_class %in% allowed_classes) {
+  if (!counts_class %in% allowed_classes) {
     stop(
       sprintf(
         "Unsupported input class '%s'.\nAllowed classes: %s",
-        sim_class,
+        counts_class,
         paste(allowed_classes, collapse = ", ")
       ),
       call. = FALSE
@@ -140,22 +120,10 @@ bind_to_matrix <- function(sim.data, true.data) {
     return(res)      
   }
   
-  
-  
-  sim.data <- switch(sim_class,
-    "matrix" = sim.data,
-    "array"  = upper_tri_cbind_array(sim.data),
-    "list"   = upper_tri_cbind_list(sim.data) 
+  res <- switch(counts_class,
+    "matrix" = counts,
+    "array"  = upper_tri_cbind_array(counts),
+    "list"   = upper_tri_cbind_list(counts) 
   )
-  true.data <- switch(true_class,
-    "matrix" = true.data,
-    "array"  = upper_tri_cbind_array(true.data),
-    "list"   = upper_tri_cbind_list(true.data) 
-  )
-
-  out <- list(
-    sim  = sim.data,
-    truth = true.data
-  )
-  return(out)
+  return(res)
 }
