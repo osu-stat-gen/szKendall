@@ -61,9 +61,7 @@ szKendall <- function(counts,
   kendall.dist <- kendall.diss(mat_count)
 
   # Compute euclidean.dist; TODO parallelize this
-  euclidean.dist <- as.matrix(dist(t(mat_count),method="euclidean"))
-  # #Standardize?
-  # euclidean.dist <- as.matrix(dist(t(scale(mat_count)),method="euclidean"))
+  euclidean.dist <- as.matrix(dist(t(scale(mat_count)),method="euclidean"))
   
   # Compute szkendall.dist (NOTE kendall.dist is reused if dist.method=="szkendall1")
   method_dispatch <- list(
