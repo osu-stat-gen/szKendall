@@ -28,20 +28,23 @@ You can install the szKendall package from GitHub:
 
 # library(devtools)
 # devtools::install_github("https://github.com/osu-stat-gen/szKendall")
-library(szKendall)
-
-# For visualization 
-library(ggplot2)  
-library(plsgenomics)
-library(Rtsne)
-library(umap)
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(plsgenomics)
+  library(dplyr)
+  library(Rtsne)
+  library(umap)
+  library(szKendall)
+})
 ```
 
 You may also need to load parallel backends:
 
 ```{r setup, warning=FALSE, message=FALSE}
+suppressPackageStartupMessages({
 library(doParallel)
 library(foreach)
+})
 registerDoParallel(cores = 4)  
 # Run foreach::registerDoSEQ() to override any parallel backend and force sequential calculation 
 # foreach::registerDoSEQ()
@@ -65,10 +68,8 @@ contacts[true1.data!=0] <- true1.data[true1.data!=0]
 
 # Calculate szKendall dissimilarity, along with its two variants  
 szK  <- szKendall(contacts=contacts,dist.method="szKendall")
-szK1 <- szKendall1.diss(contacts=contacts,dist.method="szKendall1")
+szK1 <- szKendall(contacts=contacts,dist.method="szKendall1")
 
-print(dim(szK))
-print(dim(szK1))
 ```
 
 The szKendall package also provides different functions for visualizing the dissimilarity matrix: Heatmap (`scHiC_hm_dist()`), t-SNE two-dimensional projection (`scHiC_tSNE_dist()`), and UMAP two-dimensional projection (`scHiC_UMAP_dist()`). 
@@ -80,23 +81,26 @@ cell.type <- factor(c(rep(1,n_single), rep(2,n_single), rep(3,n_single)), levels
 
 
 # Heatmap visualization 
-scHiC_hm_dist(szK, title="szK")
+scHiC_hm_dist(szK[[1]], title="szK")
 
 # t-SNE 2D projection
-scHiC_tSNE_dist(szK, cell_type=cell.type, seed=1234, title="szK", alpha_value=1)
+scHiC_tSNE_dist(szK[[1]], cell_type=cell.type, seed=1234, title="szK", alpha_value=1)
 
 # UMAP 2D projection
-scHiC_UMAP_dist(szK, cell_type=cell.type, seed=1234, main="szK", alpha_value=1)
+scHiC_UMAP_dist(szK[[1]], cell_type=cell.type, seed=1234, main="szK", alpha_value=1)
 ```
 
 Using a dissimilarity matrix (Euclidean, szKendall, or others), we can perform clustering and measure the clustering results using the four criterion values (ARI, WSS%, ASW, and MIS). Below is an example of performing K-means, PAM, & hierarchical clustering based on the Euclidean distance on the simulated data, and performing PAM & hierarchical clustering based on the szKendall dissimilarity. 
 
 ```{r clustering}
-library(mclust)   # required to calculate ARI  
-library(cluster)  # required to perform PAM clustering
-library(factoextra)  # required to perform hierarchical clustering
+suppressWarnings({
+  suppressPackageStartupMessages({
+    library(cluster)  # required to perform PAM clustering
+    library(factoextra)  # required to perform hierarchical clustering
+  })
+})
 
-euclid.sim1 <- as.matrix(dist( t(scale(sim1.data)) ))
+euclid.sim1 <- as.matrix(dist(t(scale(sim1.data))))
 rownames(euclid.sim1) <- NULL 
 colnames(euclid.sim1) <- NULL 
 
@@ -140,17 +144,17 @@ MIS(pam1$clustering, euclid.sim1)
 
 ##  Perform PAM clustering on the simulated data + true SZ information (which is based on szKendall)  ## 
 set.seed(1234)
-pam2 <- pam(szK, k=3, nstart=10, diss=TRUE)
+pam2 <- pam(szK[[1]], k=3, nstart=10, diss=TRUE)
 # ARI 
 ARI(cell.type, pam2$clustering)  
 # WSS% 
-WSS_percentage(pam2$clustering, szK)
+WSS_percentage(pam2$clustering, szK[[1]])
 # ASW 
 # (the ASW extracted from 'pam2$silinfo$avg.width' should be identical to the one returned by 'ASW' function.) 
-ASW(pam2$clustering, szK)
+ASW(pam2$clustering, szK[[1]])
 pam2$silinfo$avg.width
 # MIS 
-MIS(pam2$clustering, szK)
+MIS(pam2$clustering, szK[[1]])
 
 #------------------------------------ Hierarchical ----------------------------------------------------
 
@@ -170,19 +174,19 @@ MIS(hclust1$cluster, euclid.sim1)
 
 ##  Perform Hierarchical clustering on the simulated data + true SZ information (which is based on szKendall)  ## 
 set.seed(1234)
-hclust2 <- hcut(as.dist(szK), hc_func="hclust", hc_method="complete", k = 3, isdiss = TRUE)
+hclust2 <- hcut(as.dist(szK[[1]]), hc_func="hclust", hc_method="complete", k = 3, isdiss = TRUE)
 # ARI 
 ARI(cell.type, hclust2$cluster)  
 # WSS% 
-WSS_percentage(hclust2$cluster, szK)
+WSS_percentage(hclust2$cluster, szK[[1]])
 # ASW 
 # (the ASW extracted from 'hclust2$silinfo$avg.width' should be identical to the one returned by 'ASW' function.) 
-ASW(hclust2$cluster, szK)
+ASW(hclust2$cluster, szK[[1]])
 hclust2$silinfo$avg.width
 # MIS 
-MIS(hclust2$cluster, szK)
+MIS(hclust2$cluster, szK[[1]])
 # ARI 
-MIS(hclust2$cluster, szK)
+MIS(hclust2$cluster, szK[[1]])
 
 
 ```
