@@ -597,11 +597,11 @@ double szkendall1_cpp_Kendallpart(NumericVector Y1, NumericVector Y2, IntegerVec
     double score = 0.0;
     NumericMatrix K(len, len);
     
-    int n1 = region1.length();
-    int n2 = region2.length();
-    int n3 = region3.length();
-    int n4 = region4.length();
-    int n23 = region23.length(); 
+    // int n1 = region1.length();
+    // int n2 = region2.length();
+    // int n3 = region3.length();
+    // int n4 = region4.length();
+    // int n23 = region23.length(); 
     
     // Rprintf("n1: %d\t n2: %d\t n3: %d\t n4: %d\n", n1, n2, n3, n4);
     
