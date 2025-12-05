@@ -45,19 +45,16 @@
 #' 
 #' 
 #' @export
-szKendall <- function(sim.data, true.data,
+szKendall <- function(counts,
                       dist.method = "szKendall") {
 
   # Normalize input types into matrix form
-  mat_data <- bind_to_matrix(sim.data, true.data)
-  sim      <- mat_data$sim
-  truth    <- mat_data$true
-  rm(mat_data)
+  mat_count <- bind_to_matrix(counts)
 
   # Map method names to computation functions
   method_dispatch <- list(
-    szKendall  = function(sim, truth) szKendall.diss(sim, truth),
-    szKendall1 = function(sim, truth) szKendall2.diss(sim, truth)
+    szKendall  = function(mat_count) szKendall.diss(mat_count),
+    szKendall1 = function(mat_count) szKendall2.diss(mat_count)
   )
 
   # Validate selected method
@@ -72,7 +69,7 @@ szKendall <- function(sim.data, true.data,
     )
   }
 
-  # Execute selected method
+  # TODO: add Euclidean and Kendall
   res <- method_dispatch[[dist.method]](sim, truth)
   return(res)
 }
