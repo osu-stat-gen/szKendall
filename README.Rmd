@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of szKendall is to measure the dissimilarity between two single cells based on observed Hi-C data, accounting for the discrepancies in structural zero positions.
+The goal of szKendall is to measure the dissimilarity between two single cells based on Hi-C data, accounting for the discrepancies in structural zero positions.
 
 ## System Requirements
 - R version: >= 3.5
@@ -39,6 +39,16 @@ devtools::install_github("https://github.com/swl0923/szKendall_trial")
 The installation would take a few minutes on a standard desktop computer. 
 
 
+## Input formats
+
+`szKendall()` takes three types of input formats:
+
+- a list of scHi-C 2D matrices of size $n$ (e.g., number of bins per chromosome)
+- a 3D array of dimension $(n \times n \times \text{number of cells})$
+- a $(\text{number of locus-pairs} \times \text{number ofcells})$ matrix
+
+
+
 ## Example
 
 This is an example which shows you how to calculate the szKendall dissimilarity between cells. The `PFC_subset_matrix` dataset consists of chr21 single-cell Hi-C contact matrices generated from 14 human prefrontal cortex (PFC) cell types, with 10 cells sampled from each type. Each matrix represents loci-pair-by-cell contact profiles that have been pre-processed using the R package `HiCImpute`.
@@ -52,13 +62,6 @@ data("PFC_subset_matrix")
 foreach::registerDoSEQ()
 res <- szKendall(contacts=PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
 ```
-
-
-`szKendall()` takes three types of input formats:
-
-- a list of scHi-C 2D matrices of size $n$ (e.g., number of bins per chromosome)
-- a 3D array of dimension $(n \times n \times \text{number of cells})$
-- a $(\text{number of locus-pairs} \times \text{number ofcells})$ matrix
 
 
 ```{r eval = FALSE}

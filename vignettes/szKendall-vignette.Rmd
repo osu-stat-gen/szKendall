@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The goal of szKendall is to measure the dissimilarity between two single cells based on their observed Hi-C data, accounting for the discrepancies in structural zero positions. This rank-based dissimilarity measure can be powerful for single-cell Hi-C clustering and other downstream analyses. The calculation is implemented using Rcpp for speed and supports parallel computation via `foreach` and `doParallel` packages.
+The goal of szKendall is to measure the dissimilarity between two single cells based on Hi-C data, accounting for the discrepancies in structural zero positions. This rank-based dissimilarity measure can be powerful for single-cell Hi-C clustering and other downstream analyses. The calculation is implemented using Rcpp for speed and supports parallel computation via `foreach` and `doParallel` packages.
 
 ## Installation
 
@@ -127,7 +127,7 @@ MIS(pam$clustering, szK[[1]])
 
 We can visualize how the four criteria change as different numbers of clusters are specified in PAM.
 
-```{r, fig.width=8, fig.height=2}
+```{r, fig.width=6, fig.height=6}
 ARI_k <- WSS_k <- ASW_k <- MIS_k <- c()
 for(k in 2:10){
   pam_k <- pam(szK[[1]], k=k, nstart=10, diss=TRUE)
@@ -143,7 +143,7 @@ data.frame(ARI_k,WSS_k,ASW_k,MIS_k) %>%
   ggplot(aes(x=K,y=Value)) +
   geom_point() +
   geom_line() +
-  facet_wrap(~Criterion,ncol=4,scales="free") + 
+  facet_wrap(~Criterion,scales="free") + 
   scale_x_continuous(breaks=2:10) +
   xlab("Number of Cluster") + 
   theme_bw()
