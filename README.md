@@ -8,8 +8,8 @@
 <!-- badges: end -->
 
 The goal of szKendall is to measure the dissimilarity between two single
-cells based on their observed Hi-C data, accounting for the
-discrepancies in structural zero positions.
+cells based on observed Hi-C data, accounting for the discrepancies in
+structural zero positions.
 
 ## System Requirements
 
@@ -41,6 +41,7 @@ have been pre-processed using the R package `HiCImpute`. With sequential
 calculation, the calculation time of one szKendall dissimilarity in this
 example is less than 1 minute using 19 cores. It may take longer when
 using fewer cores.
+
 
 ``` r
 library(szKendall)

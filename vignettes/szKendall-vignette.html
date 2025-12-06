@@ -361,12 +361,13 @@ for speed and supports parallel computation via <code>foreach</code> and
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;https://github.com/osu-stat-gen/szKendall&quot;)</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">library</span>(plsgenomics)</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">library</span>(Rtsne)</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">library</span>(umap)</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="fu">library</span>(szKendall)</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>})</span></code></pre></div>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">library</span>(reshape2)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">library</span>(plsgenomics)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">library</span>(Rtsne)</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="fu">library</span>(umap)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">library</span>(szKendall)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>})</span></code></pre></div>
 <p>You may also need to load parallel backends:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
@@ -376,30 +377,9 @@ for speed and supports parallel computation via <code>foreach</code> and
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># Run foreach::registerDoSEQ() to override any parallel backend and force sequential calculation </span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># foreach::registerDoSEQ()</span></span></code></pre></div>
 </div>
-<div id="example-calculating-szkendall-dissimilarity-and-perform-clustering" class="section level2">
-<h2>Example: Calculating szKendall Dissimilarity and Perform
-Clustering</h2>
-<p>This is an example which shows you how to calculate the szKendall
-dissimilarity between cells. The simulated data contain 150 single cells
-(i.e., 150 columns). Therefore, the resulting szKendall matrix (which is
-symmetric with the main-diagonal all being 0) is of dimension 150 by
-150. The <span class="math inline">\((i, j)^{th}\)</span> element in
-this matrix indicates the szKendall dissimilarity between cell <span class="math inline">\(i\)</span> and cell <span class="math inline">\(j\)</span>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Simulated data (or real, observed count data)</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;sim1.data&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Underlying expected count</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># (where only structural zeros are exactly zeros; all other positions have positive values)</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;true1.data&quot;</span>) </span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># DOs are imputed</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>contacts <span class="ot">&lt;-</span> sim1.data</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>contacts[true1.data<span class="sc">!=</span><span class="dv">0</span>] <span class="ot">&lt;-</span> true1.data[true1.data<span class="sc">!=</span><span class="dv">0</span>]</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># Calculate szKendall and szkendall1 dissimilarity</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>szK  <span class="ot">&lt;-</span> <span class="fu">szKendall</span>(<span class="at">contacts=</span>contacts,<span class="at">dist.method=</span><span class="st">&quot;szKendall&quot;</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>szK1  <span class="ot">&lt;-</span> <span class="fu">szKendall</span>(<span class="at">contacts=</span>contacts,<span class="at">dist.method=</span><span class="st">&quot;szKendall&quot;</span>)</span></code></pre></div>
-<p>The <code>szKendall()</code> function supports three input
-formats:</p>
+<div id="input-data-the-szkendall-function-supports-three-input-formats" class="section level2">
+<h2>Input Data: The <code>szKendall()</code> function supports three
+input formats:</h2>
 <ol style="list-style-type: decimal">
 <li><p>A <strong>#LP × #cells</strong> numeric matrix</p></li>
 <li><p>A <strong>list</strong> of length <strong>#cells</strong>, where
@@ -409,6 +389,22 @@ each element is a symmetric Hi-C count matrix of dimension <strong>#LP X
 #cells</strong>, where each slice corresponds to a symmetric Hi-C count
 matrix.</p></li>
 </ol>
+</div>
+<div id="example-calculating-szkendall-dissimilarity-and-perform-clustering" class="section level2">
+<h2>Example: Calculating szKendall Dissimilarity and Perform
+Clustering</h2>
+<p>This is an example which shows you how to calculate the szKendall
+dissimilarity between cells. The <code>contacts</code> data contains 150
+single cells (i.e., 150 columns), consisting of three cell types with 50
+cells each. Therefore, the resulting szKendall matrix (which is
+symmetric with the main-diagonal all being 0) is of dimension 150 by
+150. The <span class="math inline">\((i, j)^{th}\)</span> element in
+this matrix indicates the szKendall dissimilarity between cell <span class="math inline">\(i\)</span> and cell <span class="math inline">\(j\)</span>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;contacts&quot;</span>) <span class="co"># Example data</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Calculate szKendall and szkendall1 dissimilarity</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>szK  <span class="ot">&lt;-</span> <span class="fu">szKendall</span>(<span class="at">contacts=</span>contacts,<span class="at">dist.method=</span><span class="st">&quot;szKendall&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>szK1  <span class="ot">&lt;-</span> <span class="fu">szKendall</span>(<span class="at">contacts=</span>contacts,<span class="at">dist.method=</span><span class="st">&quot;szKendall&quot;</span>)</span></code></pre></div>
 <p>The argument <code>dist.method</code> specifies the weighting scheme
 and accepts either<br />
 <code>&quot;szKendall&quot;</code> or <code>&quot;szKendall1&quot;</code>.See
@@ -432,6 +428,9 @@ visualizing the dissimilarity matrix: Heatmap
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># UMAP 2D projection</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">scHiC_UMAP_dist</span>(szK[[<span class="dv">1</span>]], <span class="at">cell_type=</span>cell.type, <span class="at">seed=</span><span class="dv">1234</span>, <span class="at">main=</span><span class="st">&quot;szK&quot;</span>, <span class="at">alpha_value=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="computing-four-assessment-criteria" class="section level2">
+<h2>Computing four assessment criteria</h2>
 <p>Using a dissimilarity matrix (Euclidean, szKendall, or others), we
 can perform clustering and measure the clustering results using the four
 criterion values (ARI, WSS%, ASW, and MIS). Below is an example of
@@ -444,117 +443,46 @@ hierarchical clustering based on the szKendall dissimilarity.</p>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="fu">library</span>(factoextra)  <span class="co"># required to perform hierarchical clustering</span></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  })</span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>})</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>euclid.sim1 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(<span class="fu">t</span>(<span class="fu">scale</span>(sim1.data))))</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">rownames</span>(euclid.sim1) <span class="ot">&lt;-</span> <span class="cn">NULL</span> </span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">colnames</span>(euclid.sim1) <span class="ot">&lt;-</span> <span class="cn">NULL</span> </span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#------------------------------------- K-means --------------------------------------------------------</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="do">##  Perform K-means clustering on the simulated data (which is based on Euclidean distance)  ## </span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>km1 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">t</span>(<span class="fu">scale</span>(sim1.data)), <span class="at">centers=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">10</span>, <span class="at">iter.max=</span><span class="dv">100</span>, <span class="at">algorithm=</span><span class="st">&quot;Hartigan-Wong&quot;</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># ARI (adjusted rand index)</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, km1<span class="sc">$</span>cluster)  </span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; [1] 0.979932</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co"># WSS% (within-cluster sum of squares percentage)</span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># The &#39;WSS_percentage_kmeans()&#39; function is designed specifically for &quot;kmeans&quot; object, </span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co"># and the returned WSS% value should be identical to the one returned by &#39;WSS_percentage()&#39; function. </span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="fu">WSS_percentage_kmeans</span>(km1)</span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; [1] 0.9695283</span></span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="fu">WSS_percentage</span>(km1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; [1] 0.9695283</span></span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co"># ASW (average silhouette width)</span></span>
-<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="fu">ASW</span>(km1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; [1] 0.01022421</span></span>
-<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co"># MIS (minimum isolation score)</span></span>
-<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="fu">MIS</span>(km1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#&gt; [1] 0.8931245</span></span>
-<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#--------------------------------------- PAM ----------------------------------------------------------</span></span>
-<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="do">##  Perform PAM clustering on the simulated data (which is based on Euclidean distance)  ## </span></span>
-<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a>pam1 <span class="ot">&lt;-</span> <span class="fu">pam</span>(euclid.sim1, <span class="at">k=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">10</span>, <span class="at">diss=</span><span class="cn">TRUE</span>)</span>
-<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a><span class="co"># ARI </span></span>
-<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, pam1<span class="sc">$</span>clustering)  </span>
-<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="co">#&gt; [1] -0.003371085</span></span>
-<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="co"># WSS% </span></span>
-<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a><span class="fu">WSS_percentage</span>(pam1<span class="sc">$</span>clustering, euclid.sim1)</span>
-<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="co">#&gt; [1] 0.9843385</span></span>
-<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="co"># ASW </span></span>
-<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="co"># (the ASW extracted from &#39;pam1$silinfo$avg.width&#39; should be identical to the one returned by &#39;ASW&#39; function.)  </span></span>
-<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="fu">ASW</span>(pam1<span class="sc">$</span>clustering, euclid.sim1)</span>
-<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="co">#&gt; [1] 0.0003360744</span></span>
-<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a>pam1<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width</span>
-<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co">#&gt; [1] 0.0003360744</span></span>
-<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="co"># MIS </span></span>
-<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="fu">MIS</span>(pam1<span class="sc">$</span>clustering, euclid.sim1)</span>
-<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co">#&gt; [1] 0.8745308</span></span>
-<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a></span>
-<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a><span class="do">##  Perform PAM clustering on the simulated data + true SZ information (which is based on szKendall)  ## </span></span>
-<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a>pam2 <span class="ot">&lt;-</span> <span class="fu">pam</span>(szK[[<span class="dv">1</span>]], <span class="at">k=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">10</span>, <span class="at">diss=</span><span class="cn">TRUE</span>)</span>
-<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co"># ARI </span></span>
-<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, pam2<span class="sc">$</span>clustering)  </span>
-<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="co"># WSS% </span></span>
-<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a><span class="fu">WSS_percentage</span>(pam2<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a><span class="co">#&gt; [1] 0.1289283</span></span>
-<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a><span class="co"># ASW </span></span>
-<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a><span class="co"># (the ASW extracted from &#39;pam2$silinfo$avg.width&#39; should be identical to the one returned by &#39;ASW&#39; function.) </span></span>
-<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a><span class="fu">ASW</span>(pam2<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
-<span id="cb7-73"><a href="#cb7-73" tabindex="-1"></a>pam2<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width</span>
-<span id="cb7-74"><a href="#cb7-74" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
-<span id="cb7-75"><a href="#cb7-75" tabindex="-1"></a><span class="co"># MIS </span></span>
-<span id="cb7-76"><a href="#cb7-76" tabindex="-1"></a><span class="fu">MIS</span>(pam2<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-77"><a href="#cb7-77" tabindex="-1"></a><span class="co">#&gt; [1] 1.90289</span></span>
-<span id="cb7-78"><a href="#cb7-78" tabindex="-1"></a></span>
-<span id="cb7-79"><a href="#cb7-79" tabindex="-1"></a><span class="co">#------------------------------------ Hierarchical ----------------------------------------------------</span></span>
-<span id="cb7-80"><a href="#cb7-80" tabindex="-1"></a></span>
-<span id="cb7-81"><a href="#cb7-81" tabindex="-1"></a><span class="do">##  Perform Hierarchical clustering on the simulated data (which is based on Euclidean distance)  ## </span></span>
-<span id="cb7-82"><a href="#cb7-82" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-83"><a href="#cb7-83" tabindex="-1"></a>hclust1 <span class="ot">&lt;-</span> <span class="fu">hcut</span>(<span class="fu">as.dist</span>(euclid.sim1), <span class="at">hc_func=</span><span class="st">&quot;hclust&quot;</span>, <span class="at">hc_method=</span><span class="st">&quot;complete&quot;</span>, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">isdiss =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-84"><a href="#cb7-84" tabindex="-1"></a><span class="co"># ARI </span></span>
-<span id="cb7-85"><a href="#cb7-85" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, hclust1<span class="sc">$</span>cluster)  </span>
-<span id="cb7-86"><a href="#cb7-86" tabindex="-1"></a><span class="co">#&gt; [1] 0.2584762</span></span>
-<span id="cb7-87"><a href="#cb7-87" tabindex="-1"></a><span class="co"># WSS% </span></span>
-<span id="cb7-88"><a href="#cb7-88" tabindex="-1"></a><span class="fu">WSS_percentage</span>(hclust1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-89"><a href="#cb7-89" tabindex="-1"></a><span class="co">#&gt; [1] 0.9791586</span></span>
-<span id="cb7-90"><a href="#cb7-90" tabindex="-1"></a><span class="co"># ASW </span></span>
-<span id="cb7-91"><a href="#cb7-91" tabindex="-1"></a><span class="co"># (the ASW extracted from &#39;hclust1$silinfo$avg.width&#39; should be identical to the one returned by &#39;ASW&#39; function.) </span></span>
-<span id="cb7-92"><a href="#cb7-92" tabindex="-1"></a><span class="fu">ASW</span>(hclust1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-93"><a href="#cb7-93" tabindex="-1"></a><span class="co">#&gt; [1] 0.0001513779</span></span>
-<span id="cb7-94"><a href="#cb7-94" tabindex="-1"></a>hclust1<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width</span>
-<span id="cb7-95"><a href="#cb7-95" tabindex="-1"></a><span class="co">#&gt; [1] 0.0001513779</span></span>
-<span id="cb7-96"><a href="#cb7-96" tabindex="-1"></a><span class="co"># MIS </span></span>
-<span id="cb7-97"><a href="#cb7-97" tabindex="-1"></a><span class="fu">MIS</span>(hclust1<span class="sc">$</span>cluster, euclid.sim1)</span>
-<span id="cb7-98"><a href="#cb7-98" tabindex="-1"></a><span class="co">#&gt; [1] 0.8903992</span></span>
-<span id="cb7-99"><a href="#cb7-99" tabindex="-1"></a></span>
-<span id="cb7-100"><a href="#cb7-100" tabindex="-1"></a><span class="do">##  Perform Hierarchical clustering on the simulated data + true SZ information (which is based on szKendall)  ## </span></span>
-<span id="cb7-101"><a href="#cb7-101" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-102"><a href="#cb7-102" tabindex="-1"></a>hclust2 <span class="ot">&lt;-</span> <span class="fu">hcut</span>(<span class="fu">as.dist</span>(szK[[<span class="dv">1</span>]]), <span class="at">hc_func=</span><span class="st">&quot;hclust&quot;</span>, <span class="at">hc_method=</span><span class="st">&quot;complete&quot;</span>, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">isdiss =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-103"><a href="#cb7-103" tabindex="-1"></a><span class="co"># ARI </span></span>
-<span id="cb7-104"><a href="#cb7-104" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, hclust2<span class="sc">$</span>cluster)  </span>
-<span id="cb7-105"><a href="#cb7-105" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb7-106"><a href="#cb7-106" tabindex="-1"></a><span class="co"># WSS% </span></span>
-<span id="cb7-107"><a href="#cb7-107" tabindex="-1"></a><span class="fu">WSS_percentage</span>(hclust2<span class="sc">$</span>cluster, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-108"><a href="#cb7-108" tabindex="-1"></a><span class="co">#&gt; [1] 0.1289283</span></span>
-<span id="cb7-109"><a href="#cb7-109" tabindex="-1"></a><span class="co"># ASW </span></span>
-<span id="cb7-110"><a href="#cb7-110" tabindex="-1"></a><span class="co"># (the ASW extracted from &#39;hclust2$silinfo$avg.width&#39; should be identical to the one returned by &#39;ASW&#39; function.) </span></span>
-<span id="cb7-111"><a href="#cb7-111" tabindex="-1"></a><span class="fu">ASW</span>(hclust2<span class="sc">$</span>cluster, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-112"><a href="#cb7-112" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
-<span id="cb7-113"><a href="#cb7-113" tabindex="-1"></a>hclust2<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width</span>
-<span id="cb7-114"><a href="#cb7-114" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
-<span id="cb7-115"><a href="#cb7-115" tabindex="-1"></a><span class="co"># MIS </span></span>
-<span id="cb7-116"><a href="#cb7-116" tabindex="-1"></a><span class="fu">MIS</span>(hclust2<span class="sc">$</span>cluster, szK[[<span class="dv">1</span>]])</span>
-<span id="cb7-117"><a href="#cb7-117" tabindex="-1"></a><span class="co">#&gt; [1] 1.90289</span></span></code></pre></div>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#--------------------------------------- PAM ----------------------------------------------------------</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(szK[[<span class="dv">1</span>]], <span class="at">k=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">10</span>, <span class="at">diss=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># ARI </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">ARI</span>(cell.type, pam<span class="sc">$</span>clustering)  </span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co"># WSS% </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="fu">WSS_percentage</span>(pam<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; [1] 0.1289283</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># ASW </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># (the ASW extracted from &#39;pam$silinfo$avg.width&#39; should be identical to the one returned by &#39;ASW&#39; function.) </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="fu">ASW</span>(pam<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>pam<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; [1] 0.7170646</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># MIS </span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="fu">MIS</span>(pam<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]])</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; [1] 1.90289</span></span></code></pre></div>
+<p>We can visualize how the four criteria change as different numbers of
+clusters are specified in PAM.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>ARI_k <span class="ot">&lt;-</span> WSS_k <span class="ot">&lt;-</span> ASW_k <span class="ot">&lt;-</span> MIS_k <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  pam_k <span class="ot">&lt;-</span> <span class="fu">pam</span>(szK[[<span class="dv">1</span>]], <span class="at">k=</span>k, <span class="at">nstart=</span><span class="dv">10</span>, <span class="at">diss=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  ARI_k <span class="ot">&lt;-</span> <span class="fu">c</span>(ARI_k, <span class="fu">ARI</span>(cell.type, pam_k<span class="sc">$</span>clustering))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  WSS_k <span class="ot">&lt;-</span> <span class="fu">c</span>(WSS_k, <span class="fu">WSS_percentage</span>(pam_k<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]]))</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  ASW_k <span class="ot">&lt;-</span> <span class="fu">c</span>(ASW_k, <span class="fu">ASW</span>(pam_k<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]]))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  MIS_k <span class="ot">&lt;-</span> <span class="fu">c</span>(MIS_k, <span class="fu">MIS</span>(pam_k<span class="sc">$</span>clustering, szK[[<span class="dv">1</span>]]))</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>}</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">data.frame</span>(ARI_k,WSS_k,ASW_k,MIS_k) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ARI=</span>ARI_k,<span class="at">WSS=</span>WSS_k,<span class="at">ASW=</span>ASW_k,<span class="at">MIS=</span>MIS_k) <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">K=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars=</span><span class="st">&quot;K&quot;</span>,<span class="at">variable.name=</span><span class="st">&quot;Criterion&quot;</span>,<span class="at">value.name=</span><span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>K,<span class="at">y=</span>Value)) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Criterion,<span class="at">ncol=</span><span class="dv">4</span>,<span class="at">scales=</span><span class="st">&quot;free&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Number of Cluster&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="simulate-single-cell-hi-c-data" class="section level2">
 <h2>Simulate single-cell Hi-C Data</h2>
@@ -564,32 +492,32 @@ single-cell Hi-C data for <code>n_single</code> cells of the same cell
 underlying expected contact count data are also returned, which indicate
 all the structural zero positions (i.e., those positions with expected
 count being 0).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Simulate the data for 50 cells</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>n_single <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># Load the 3D coordinates of n=61 loci</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;coord3D_T1&quot;</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># Save the resulting data as ST1 (subtype 1), which contains the simulated and expected contact counts </span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># (Both matrices are of dimension 1830 by 50, where 1830 = 61*60/2 is the number of locus pairs, </span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#  and 50 is the number of cells (n_single). )</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>ST1 <span class="ot">&lt;-</span> <span class="fu">scHiC_simulate_withoutdiagonal</span>(</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="at">data =</span> coord3D_T1,</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="at">alpha_0 =</span> <span class="fl">1.8</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="at">alpha_1 =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="at">beta_l =</span> <span class="fl">0.9</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  <span class="at">beta_g =</span> <span class="fl">0.9</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="at">beta_m =</span> <span class="fl">0.9</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  <span class="at">gamma =</span> <span class="fl">0.6</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  <span class="at">tau1 =</span> <span class="fl">0.7</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>  <span class="at">eta =</span> <span class="fl">0.1</span>,</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>  <span class="at">tau2=</span><span class="fl">0.6</span>,</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>  <span class="at">n_single=</span>n_single</span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>)</span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="fu">dim</span>(ST1<span class="sc">$</span>singledat)</span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; [1] 1830   50</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="fu">dim</span>(ST1<span class="sc">$</span>truecount)</span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; [1] 1830   50</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Simulate the data for 50 cells</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>n_single <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># Load the 3D coordinates of n=61 loci</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;coord3D_T1&quot;</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># Save the resulting data as ST1 (subtype 1), which contains the simulated and expected contact counts </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># (Both matrices are of dimension 1830 by 50, where 1830 = 61*60/2 is the number of locus pairs, </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#  and 50 is the number of cells (n_single). )</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>ST1 <span class="ot">&lt;-</span> <span class="fu">scHiC_simulate_withoutdiagonal</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="at">data =</span> coord3D_T1,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="at">alpha_0 =</span> <span class="fl">1.8</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="at">alpha_1 =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  <span class="at">beta_l =</span> <span class="fl">0.9</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="at">beta_g =</span> <span class="fl">0.9</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>  <span class="at">beta_m =</span> <span class="fl">0.9</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>  <span class="at">gamma =</span> <span class="fl">0.6</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  <span class="at">tau1 =</span> <span class="fl">0.7</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="at">eta =</span> <span class="fl">0.1</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>  <span class="at">tau2=</span><span class="fl">0.6</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>  <span class="at">n_single=</span>n_single</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>)</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="fu">dim</span>(ST1<span class="sc">$</span>singledat)</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; [1] 1830   50</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">dim</span>(ST1<span class="sc">$</span>truecount)</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; [1] 1830   50</span></span></code></pre></div>
 <div id="explanation-of-parameters" class="section level3">
 <h3>Explanation of Parameters</h3>
 <ul>
