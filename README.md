@@ -37,9 +37,10 @@ dissimilarity between cells. The `PFC_subset_matrix` dataset consists of
 chr21 single-cell Hi-C contact matrices generated from 14 human
 prefrontal cortex (PFC) cell types, with 10 cells sampled from each
 type. Each matrix represents loci-pair-by-cell contact profiles that
-have been pre-processed using . With sequential calculation, the
-calculation time of one szKendall dissimilarity in this example is less
-than 1 minute using 19 cores. It may take longer when using fewer cores.
+have been pre-processed using the R package `HiCImpute`. With sequential
+calculation, the calculation time of one szKendall dissimilarity in this
+example is less than 1 minute using 19 cores. It may take longer when
+using fewer cores.
 
 ``` r
 library(szKendall)
