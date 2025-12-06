@@ -67,21 +67,50 @@ contacts <- sim1.data
 contacts[true1.data!=0] <- true1.data[true1.data!=0]
 
 # Calculate szKendall dissimilarity, along with its two variants  
-szK  <- szKendall(contacts=contacts,dist.method="szKendall")
-szK1 <- szKendall(contacts=contacts,dist.method="szKendall1")
-
 ```
 
-The szKendall package also provides different functions for visualizing the dissimilarity matrix: Heatmap (`scHiC_hm_dist()`), t-SNE two-dimensional projection (`scHiC_tSNE_dist()`), and UMAP two-dimensional projection (`scHiC_UMAP_dist()`). 
 
-```{r visualization, fig.width=5, fig.height=5}
+The `szKendall()` function supports three input formats:
+
+1. A **\#LP × \#cells** numeric matrix 
+
+2. A **list** of length **\#cells**, where each element is a symmetric Hi-C count matrix of dimension **\#LP X \#LP** 
+
+3. A **3D array** of dimension **\#LP X \#LP X \#cells**, where each slice corresponds to a symmetric Hi-C count matrix.
+
+The argument `dist.method` specifies the weighting scheme and accepts either  
+`"szKendall"` or `"szKendall1"`.  
+
+See `?szKendall` for further details.
+
+
+```{r, fig.width=12, fig.height=4}
+szK  <- szKendall(contacts=contacts,dist.method="szKendall",heatmap=TRUE)
+```
+
+Also, if `heatmap = TRUE`, the function will automatically generate heatmaps of the resulting **szKendall(1)**, **Euclidean**, and **Kendall** dissimilarity matrices.
+
+```{r}
+szK1 <- szKendall(contacts=contacts,dist.method="szKendall1")
+```
+
+
+`scHiC_hm_dist()` also provides convenient visualization tools for the dissimilarity matrices.
+
+```{r viz-heatmap, fig.width=12, fig.height=4}
+par(mfrow=c(1,3))
+scHiC_hm_dist(szK1[[1]]) # szKendall(1)
+scHiC_hm_dist(szK1[[2]]) # Euclidean
+scHiC_hm_dist(szK1[[3]]) # Kendall
+```
+
+
+The `szKendall` package additionally offers 2D visualization tools, such as t-SNE (`scHiC_tSNE_dist()`) and UMAP (`scHiC_UMAP_dist()`) projections of the dissimilarity matrix.
+
+```{r viz-2dscatter, fig.width=5, fig.height=5}
 # Specify the true cell labels
 n_single <- 50
 cell.type <- factor(c(rep(1,n_single), rep(2,n_single), rep(3,n_single)), levels=c("1", "2", "3"))
-
-
-# Heatmap visualization 
-scHiC_hm_dist(szK[[1]], title="szK")
 
 # t-SNE 2D projection
 scHiC_tSNE_dist(szK[[1]], cell_type=cell.type, seed=1234, title="szK", alpha_value=1)
