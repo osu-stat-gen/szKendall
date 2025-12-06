@@ -101,7 +101,7 @@ scHiC_UMAP_dist(szK[[1]], cell_type=cell.type, seed=1234, main="szK", alpha_valu
 
 ## Computing four assessment criteria
 
-Using a dissimilarity matrix (Euclidean, szKendall, or others), we can perform clustering and measure the clustering results using the four criterion values (ARI, WSS%, ASW, and MIS). Below is an example of performing K-means, PAM, & hierarchical clustering based on the Euclidean distance on the simulated data, and performing PAM & hierarchical clustering based on the szKendall dissimilarity. 
+Using a dissimilarity matrix (Euclidean, szKendall, or others), we can perform clustering and measure the clustering results using the four criterion values (ARI, WSS%, ASW, and MIS). 
 
 ```{r clustering}
 suppressWarnings({
