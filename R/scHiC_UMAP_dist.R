@@ -34,6 +34,8 @@ utils::globalVariables(c(
 #' @examples
 #' n_single <- 50
 #' cell.type <- factor(c(rep(1,n_single), rep(2,n_single), rep(3,n_single)), levels=c("1", "2", "3"))
+#' # Compute Euclidean distance of standardized sim3 data
+#' euclid.diss <- as.matrix(dist(t(scale(szKendall::sim3.data))))
 #' scHiC_UMAP_dist(euclid.diss, cell_type=cell.type, seed=1234, main="Euclid", alpha_value=1)
 #' @export
 scHiC_UMAP_dist <- function(data, cell_type, seed=1234,

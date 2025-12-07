@@ -7,6 +7,8 @@
 #' @param title The title given to the output plot. Default is empty ("").
 #' @return A plot that visualizes the dissimilarity matrix as heatmap. Each element in the heatmap is scaled to be between 0 and 1 (by subtracting the minimum and dividing the range).
 #' @examples
+#' # Compute Euclidean distance of standardized sim3 data
+#' euclid.diss <- as.matrix(dist(t(scale(szKendall::sim3.data))))
 #' scHiC_hm_dist(euclid.diss, title="Euclid")
 #' @export
 scHiC_hm_dist <- function(data, title = ""){

@@ -10,7 +10,8 @@
 #'   Each column corresponds to one single cell. There are 3 subtypes, each contains 50 cells, resulting in 150 cells.
 #' }
 #'
-#' @source These subtypes are derived based on the 3D structure of a segment in chromosome 19 (61 loci) from a K562 cell (accession: GSM2109974) obtained from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80006. The parameter setting is: alpha_0=1.8, gamma=0.6, eta=0.1, tau1=0.7, tau2=0.6.
+#' @source These subtypes are derived based on the 3D structure of a segment in chromosome 19 (61 loci) from a K562 cell (accession: GSM2109974) obtained from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80006.
+#'  The parameter setting is: alpha_0=1.8, gamma=0.6, eta=0.1, tau1=0.7, tau2=0.6.
 "sim2.data"
 
 
@@ -25,6 +26,7 @@
 #'   Each column corresponds to one single cell. There are 3 subtypes, each contains 50 cells, resulting in 150 cells.
 #' }
 #'
-#' @source These subtypes are derived based on the 3D structure of a segment in chromosome 19 (61 loci) from a K562 cell (accession: GSM2109974) obtained from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80006. The parameter setting is: alpha_0=1.8, gamma=0.6, eta=0.1, tau1=0.7, tau2=0.6.
+#' @source These subtypes are derived based on the 3D structure of a segment in chromosome 19 (61 loci) from a K562 cell (accession: GSM2109974) obtained from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80006.
+#'  The parameter setting is: alpha_0=1.8, gamma=0.6, eta=0.1, tau1=0.7, tau2=0.6.
 "true2.data"
 

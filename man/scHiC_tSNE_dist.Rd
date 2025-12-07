@@ -55,5 +55,7 @@ This function projects a dissimilarity matrix into the two-dimensional (2D) spac
 \examples{
 n_single <- 50
 cell.type <- factor(c(rep(1,n_single), rep(2,n_single), rep(3,n_single)), levels=c("1", "2", "3"))
+# Compute Euclidean distance of standardized sim3 data
+euclid.diss <- as.matrix(dist(t(scale(szKendall::sim3.data))))
 scHiC_tSNE_dist(euclid.diss, cell_type=cell.type, seed=1234, title="Eucildean distance", alpha_value=1)
 }

@@ -20,6 +20,5 @@ This function computes the within-cluster sum of squares percentage (WSS\%), giv
 \examples{
 set.seed(1234)
 km1 <- kmeans(t(scale(sim1.data)), centers=3, nstart=10, iter.max=100, algorithm="Hartigan-Wong")
-euclid.diss <- as.matrix(dist( t(scale(sim1.data)) ))
 WSS_percentage(km1$cluster, euclid.diss)
 }

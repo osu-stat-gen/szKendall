@@ -18,5 +18,7 @@ A plot that visualizes the dissimilarity matrix as heatmap. Each element in the 
 This function visualizes a dissimilarity matrix as a heatmap.
 }
 \examples{
+# Compute Euclidean distance of standardized sim3 data
+euclid.diss <- as.matrix(dist(t(scale(szKendall::sim3.data))))
 scHiC_hm_dist(euclid.diss, title="Euclid")
 }
