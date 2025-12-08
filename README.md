@@ -56,19 +56,19 @@ library(szKendall)
 data("PFC_subset_matrix")
 
 foreach::registerDoSEQ()
-res <- szKendall(contacts=PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
+res <- szKendall(contacts = PFC_subset_matrix, dist.method = "szKendall", heatmap = TRUE)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
-# A list n*n matrices, one per cell. 
+# A list n*n matrices, one per cell.
 data("PFC_subset_list")
-szKendall(PFC_subset_list,dist.method="szKendall")
+szKendall(PFC_subset_list, dist.method = "szKendall")
 
 # An array of dimension n * n * (number of cells)
 data("PFC_subset_array")
-szKendall(PFC_subset_array,dist.method="szKendall")
+szKendall(PFC_subset_array, dist.method = "szKendall")
 ```
 
 `szKendall()` returns a list of three $n \times n$ symmetric matrices:
@@ -80,8 +80,8 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 ``` r
 dim(res[[1]]) # szKendall or szKendall1
 #> [1] 140 140
-dim(res[[2]]) # Euclidean 
+dim(res[[2]]) # Euclidean
 #> [1] 140 140
-dim(res[[3]]) # Kendall 
+dim(res[[3]]) # Kendall
 #> [1] 140 140
 ```
