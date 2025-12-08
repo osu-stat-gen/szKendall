@@ -33,7 +33,7 @@ You can install the szKendall package from GitHub:
 
 ```{r, eval = FALSE}
 library(devtools)
-devtools::install_github("https://github.com/swl0923/szKendall_trial")
+devtools::install_github("https://github.com/osu-stat-gen/szKendall")
 ```
 
 The installation would take a few minutes on a standard desktop computer. 
@@ -60,18 +60,18 @@ library(szKendall)
 data("PFC_subset_matrix")
 
 foreach::registerDoSEQ()
-res <- szKendall(contacts=PFC_subset_matrix,dist.method="szKendall", heatmap=TRUE)
+res <- szKendall(contacts = PFC_subset_matrix, dist.method = "szKendall", heatmap = TRUE)
 ```
 
 
 ```{r eval = FALSE}
-# A list n*n matrices, one per cell. 
+# A list n*n matrices, one per cell.
 data("PFC_subset_list")
-szKendall(PFC_subset_list,dist.method="szKendall")
+szKendall(PFC_subset_list, dist.method = "szKendall")
 
 # An array of dimension n * n * (number of cells)
 data("PFC_subset_array")
-szKendall(PFC_subset_array,dist.method="szKendall")
+szKendall(PFC_subset_array, dist.method = "szKendall")
 ```
 
 
@@ -84,8 +84,8 @@ szKendall(PFC_subset_array,dist.method="szKendall")
 
 ```{r}
 dim(res[[1]]) # szKendall or szKendall1
-dim(res[[2]]) # Euclidean 
-dim(res[[3]]) # Kendall 
+dim(res[[2]]) # Euclidean
+dim(res[[3]]) # Kendall
 ```
 
 
