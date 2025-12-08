@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The goal of szKendall is to measure the dissimilarity between two single cells based on Hi-C data, accounting for the discrepancies in structural zero positions. This rank-based dissimilarity measure can be powerful for single-cell Hi-C clustering and other downstream analyses. The calculation is implemented using Rcpp for speed and supports parallel computation via `foreach` and `doParallel` packages.
 
-## Installation
+## Installation 
 
 You can install the szKendall package from GitHub:
 
