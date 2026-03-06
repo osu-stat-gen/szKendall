@@ -1,8 +1,12 @@
 Package: szKendall
 Title: szKendall dissimilarity measure and its two variants
 Version: 0.1.0
-Authors@R: 
-    person("Yongqi", "Liu", , "yqliu0123@gmail.com", role = c("aut", "cre"))
+Authors@R:
+    c(
+    person("Yongqi", "Liu", ,                           role = c("aut")),
+    person("Sangwan", "Lee", , "sangwan0923@gmail.com", role = c("aut","cre","ctb")),
+    person("Shili",  "Lin", ,                           role = c("ths"))
+    )
 Description: This package includes the functions that calculate the szKendall dissimilarity (and its two variants, szKendall1 and szKendall2) between two vectorized single-cell Hi-C data, given their structural zero positions (either "ground truth" for simulated data or inferred structural zeros for real data).
 License: GPL-3
 Encoding: UTF-8
